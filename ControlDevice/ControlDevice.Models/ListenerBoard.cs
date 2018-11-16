@@ -13,7 +13,10 @@ namespace ControlDevice.Models
         int BoardNo { get; }
 
 
-        float [] ReadBuffer();
+
+        ushort CardSearch();
+
+        float CardPoll();
 
 
     }
@@ -199,6 +202,17 @@ namespace ControlDevice.Models
         public void StopOperation()
         {
             //throw new NotImplementedException();
+        }
+
+        public ushort CardSearch()
+        {
+
+            return 178;
+        }
+
+        public float CardPoll()
+        {
+            return 61;
         }
     }
 

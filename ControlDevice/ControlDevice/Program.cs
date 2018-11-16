@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using PISO_Ns;
+using System.Threading;
 
 namespace ControlDevice 
 {
@@ -16,13 +17,16 @@ namespace ControlDevice
                         
             using (IListenerBoard board = GetListenerBoard()) //expected listener board is piso-813 analog input card, expected output card is piso-da2/da2u
             {
-                for (int i = 0; i < 100; i++)
-                {
-                    var results = board.ReadBuffer();
+                board.CardSearch();
+                Console.WriteLine();
+
+                board.
 
 
-
-                }
+                board.CardPoll();
+                Thread.Sleep(3000);
+                Console.WriteLine();
+                
             }
 
             //board.Dispose();

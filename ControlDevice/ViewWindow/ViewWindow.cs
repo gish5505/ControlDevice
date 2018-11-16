@@ -39,12 +39,12 @@ namespace ViewWindow
             {
                 using (IListenerBoard board = GetListenerBoard(0))
                 {
-                    board.InitOperation();
+                    //board.InitOperation();
                     try
                     {
                         for (int i = 0; i < 100; i++)
                         {
-                            var results = board.ReadBuffer();
+                            var results = 1;//board.ReadBuffer();
 
                             var toShow = String.Join(",", results);
                             txtResult.Text += toShow;
@@ -57,7 +57,7 @@ namespace ViewWindow
                     }
                     finally
                     {
-                        board.StopOperation();
+                       // board.StopOperation();
                     }
 
                 }

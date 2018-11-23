@@ -24,7 +24,6 @@ namespace ControlDevice
                 var cardResult = board.CardPoll();
                 Console.WriteLine($"card result={cardResult}");
                 Console.ReadLine();
-                board.Dispose();
 
             }
 

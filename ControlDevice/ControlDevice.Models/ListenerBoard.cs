@@ -43,6 +43,8 @@ namespace ControlDevice.Models
             if (result != 0)
                 throw new ApplicationException("Error initializing driver");
 
+            CardSearch();
+
             _config = GetConfigAddressSpace();
 
         }
@@ -58,8 +60,8 @@ namespace ControlDevice.Models
 
             var result = PISO813.SearchCard(out ushort boardID, 0X800A00);
 
-            if (result != 0)
-                throw new ApplicationException($"Invalid board found");
+            if (result != 0 && boardID >= 1)
+                throw new ApplicationException($"piso 813 not found/working; error code: {result} , piso 813 in system : {boardID}");
 
             return boardID;
         }
@@ -67,7 +69,7 @@ namespace ControlDevice.Models
 
         private ConfigAddress GetConfigAddressSpace()
         {
-            var boardId = CardSearch();
+//            var boardId = CardSearch();
 
 
             var result = PISO813.GetConfigAddressSpace(Convert.ToUInt16(BoardNo), out uint addrBase, out ushort irqNo, out ushort subVendor, out ushort subDevice, out ushort subAux, out ushort slotBus, out ushort slotDevice);

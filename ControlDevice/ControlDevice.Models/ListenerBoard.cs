@@ -159,61 +159,62 @@ namespace ControlDevice.Models
 
 
 
+    
 
+    //public class listenerboardmock : ilistenerboard
+    //{
+    //    private listenerboardmock()
+    //    {
 
-    public class ListenerBoardMock : IListenerBoard
-    {
-        private ListenerBoardMock()
-        {
+    //    }
 
-        }
-
-        public ListenerBoardMock(int boardNo)
-        {
-            BoardNo = boardNo;
-        }
-        public int BoardNo { get; private set; }
+    //    public listenerboardmock(int boardno)
+    //    {
+    //        boardno = boardno;
+    //    }
+    //    public int boardno { get; private set; }
 
         
-        public float[] ReadBuffer()
-        {
-            var result = new[] { 1.0F, 2.0F, 3.0F };
+    //    public float[] readbuffer()
+    //    {
+    //        var result = new[] { 1.0f, 2.0f, 3.0f };
 
-            //Task.Run(() => Task.Delay(100));
+    //        //task.run(() => task.delay(100));
 
-            return result;
-        }
+    //        return result;
+    //    }
 
- /*       public float[] Buffer()
-        {
-            throw new NotImplementedException();
-        }
-*/
-        public void Dispose()
-        {
+    //   public float[] buffer()
+    //    {
+    //        throw new notimplementedexception();
+    //    }
+
+    //    public void dispose()
+    //    {
             
-        }
+    //    }
 
-        public void InitOperation()
-        {
-            //throw new NotImplementedException();
-        }
+    //    public void initoperation()
+    //    {
+    //        //throw new notimplementedexception();
+    //    }
 
-        public void StopOperation()
-        {
-            //throw new NotImplementedException();
-        }
+    //    public void stopoperation()
+    //    {
+    //        //throw new notimplementedexception();
+    //    }
 
-        public ushort CardSearch()
-        {
+    //    public ushort cardsearch()
+    //    {
 
-            return 178;
-        }
+    //        return 178;
+    //    }
 
-        public float CardPoll()
-        {
-            return 61;
-        }
-    }
-
+    //    public float cardpoll()
+    //    {
+    //        return 61;
+    //    }
+        
+    //}
+    
 }

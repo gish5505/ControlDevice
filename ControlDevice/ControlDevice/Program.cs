@@ -17,16 +17,14 @@ namespace ControlDevice
                         
             using (IListenerBoard board = GetListenerBoard()) //expected listener board is piso-813 analog input card, expected output card is piso-da2/da2u
             {
-                board.CardSearch();
-                Console.WriteLine();
+                var boardId = board.CardSearch();
 
-                board.
+                Console.WriteLine($"BoardId={boardId}");
 
+                var cardResult = board.CardPoll();
+                Console.WriteLine($"card result={cardResult}");
+                Console.ReadLine();
 
-                board.CardPoll();
-                Thread.Sleep(3000);
-                Console.WriteLine();
-                
             }
 
             //board.Dispose();
@@ -39,9 +37,9 @@ namespace ControlDevice
 
             IListenerBoard result;
 
-            if (configValue == "Mock")
-                result = new ListenerBoardMock(0);
-            else
+            //if (configValue == "Mock")
+            //    result = new ListenerBoardMock(0);
+            //else
                 result = new ListenerBoard(0);
 
             return result;

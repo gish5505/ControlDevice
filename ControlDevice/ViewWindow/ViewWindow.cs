@@ -83,9 +83,9 @@ namespace ViewWindow
 
             IListenerBoard result;
 
-            if (_useMock)
-                result = new ListenerBoardMock(boardNo);
-            else
+            //if (_useMock)
+            //    result = new ListenerBoardMock(boardNo);
+            //else
                 result = new ListenerBoard(boardNo);
 
             return result;

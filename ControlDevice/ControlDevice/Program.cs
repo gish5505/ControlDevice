@@ -17,17 +17,18 @@ namespace ControlDevice
                         
             using (IListenerBoard board = GetListenerBoard()) //expected listener board is piso-813 analog input card, expected output card is piso-da2/da2u
             {
-                var boardId = board.CardSearch();
+//                var boardId = board.CardSearch();
 
-                Console.WriteLine($"BoardId={boardId}");
+//                Console.WriteLine($"BoardId={boardId}");
 
                 var cardResult = board.CardPoll();
                 Console.WriteLine($"card result={cardResult}");
                 Console.ReadLine();
+                board.Dispose();
 
             }
 
-            //board.Dispose();
+            
             
         }
 

@@ -58,20 +58,19 @@ namespace ControlDevice.Models
 
             var result = PISO813.SearchCard(out ushort boardID, 0X800A00);
 
-            if (result == 0)
+            if (result != 0)
                 throw new ApplicationException($"Invalid board found");
 
             return boardID;
         }
         //physical card address required 813-board 0 da2-board 1
 
-        
         private ConfigAddress GetConfigAddressSpace()
         {
             var boardId = CardSearch();
 
 
-            var result = PISO813.GetConfigAddressSpace(boardId, out uint addrBase, out ushort irqNo, out ushort subVendor, out ushort subDevice, out ushort subAux, out ushort slotBus, out ushort slotDevice);
+            var result = PISO813.GetConfigAddressSpace(Convert.ToUInt16(BoardNo), out uint addrBase, out ushort irqNo, out ushort subVendor, out ushort subDevice, out ushort subAux, out ushort slotBus, out ushort slotDevice);
 
 
             if (result != 0)
@@ -93,7 +92,7 @@ namespace ControlDevice.Models
             PISO813.OutputByte((ushort)addrBase, 1);  //channel reset?
 
 
-            ushort Channel = 0;
+            ushort Channel = 3; //hardware requirement
             PISO813.SetChGain(addrBase, Channel, 1); //unipolar jp1 5v jp2 10v
 
 

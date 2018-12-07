@@ -40,7 +40,7 @@ namespace ControlDevice
             //if (configValue == "Mock")
             //    result = new ListenerBoardMock(0);
             //else
-                result = new ListenerBoard(0);
+                result = new ListenerBoard(0); //number is system assigned boardNo
 
             return result;
         }

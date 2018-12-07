@@ -10,29 +10,23 @@ namespace ControlDevice.Models
 
     public class OutputBoard
     {
-        private OutputBoard()
+      
+        public int TotalBoard { get; private set; }
+
+        public OutputBoard()
         {
-
-        }
-
-        int TotalBoard { get; }
-
-        public OutputBoard(int totalBoard)
-        {
-            totalBoard = PISODA2.TotalBoard();
-            TotalBoard = totalBoard;
-
+            TotalBoard = PISODA2.TotalBoard();
+            
             if (TotalBoard == 0)
                 throw new ApplicationException("PISODA2 boards not found");
             else
                 BoardActivation();
 
-
         }
 
         public void BoardActivation()
         {
-            var result = PISODA2.ActiveBoard(Convert.ToByte(TotalBoard));
+            var result = PISODA2.ActiveBoard((byte)(TotalBoard));
 
             if (result != 0)
                 throw new ApplicationException($"Board activation failure, error code: {result}");
@@ -50,17 +44,23 @@ namespace ControlDevice.Models
 
         }
 
-        public void BoardValuePush()
+        public byte OutputMode { get; set } = 1;
+
+        public void BoardPushValue(float targetCurrent)
         {
-            byte boardNo = 1;
-            byte Channel = 2;
-            byte outputMode = 1; // 0 - voltage output, 1 - current sink
-            float targetCurrent = 1; //to be removed after implementing calculation interface
+            const byte  boardNo = 1;
+            const byte  channel = 2;            
+            
+            var result = PISODA2.DA(boardNo, channel, OutputMode, targetCurrent);
 
-            var result = PISODA2.DA(boardNo, Channel, outputMode, targetCurrent);
+            AssertResul(result, $"PushValue error, code:{result}");
+           
+        }
 
+        private void AssertResul(short result, string message)
+        {
             if (result != 0)
-                throw new ApplicationException($"ValuePush error, code:{result}");
+                throw new ApplicationException(message);
 
         }
     }

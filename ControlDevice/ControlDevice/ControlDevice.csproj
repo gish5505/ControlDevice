@@ -77,6 +77,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ControlDevice.Calculations\ControlDevice.Calculations.csproj">
+      <Project>{838d08ad-c24a-4fd4-b669-e49841d0e184}</Project>
+      <Name>ControlDevice.Calculations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ControlDevice.Models\ControlDevice.Models.csproj">
       <Project>{8198d039-da38-4cb1-ab87-66bfdb3ce5d7}</Project>
       <Name>ControlDevice.Models</Name>
@@ -84,6 +88,10 @@
     <ProjectReference Include="..\ControlDevice.PISO813\ControlDevice.PISO813.csproj">
       <Project>{226a78ad-ad9b-40c4-864c-78224b0cb3b1}</Project>
       <Name>ControlDevice.PISO813</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PISODA2\ControlDevice.PISODA2.csproj">
+      <Project>{e3af0b55-6095-47b8-a400-c6fe4d67d9f3}</Project>
+      <Name>ControlDevice.PISODA2</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

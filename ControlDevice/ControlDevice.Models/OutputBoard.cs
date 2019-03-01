@@ -55,12 +55,12 @@ namespace ControlDevice.Models
         {
 
             var states = new string[][] {
-                new string [] { "JP3 is set at 0-20 mA for the current output of channel 1", "JP3 is set at 4-20 mA for the current output of channel 1" },
-                new string [] { "JP4 is set at –10 V for internal refernce voltage source of channel 1", "JP4 is set at –5 V for internal refernce voltage source of channel 1"},
-                new string [] { "", ""},
-                new string [] { "", ""},
-                new string [] { "", ""},
-                new string [] { "", ""}
+                new string [] { "Current output is 0-20 mA on channel 1", "Current output is 4-20 mA on channel 1" },
+                new string [] { "Reference voltage is –10 V on channel 1", "Reference voltage is –5 V on channel 1"},
+                new string [] { "Bipolar setting on channel 1", "Unipolar setting on channel 1"},
+                new string [] { "Current output is 0-20 mA on channel 2", "Current output is 4-20 mA on channel 2"},
+                new string [] { "Reference voltage is –10 V on channel 2", "Reference voltage is –5 V on channel 2"},
+                new string [] { "Bipolar setting on channel 2", "Unipolar setting on channel 2" }
             };
 
             var list = new List<string>();
@@ -68,10 +68,11 @@ namespace ControlDevice.Models
             for (int i = 0, mask = 1; i < 6; i++)
             {
                 var index = jumper & mask;
+                index = index == 0 ? 0 : 1;
                 var description = states[i][index];
                 list.Add(description);
 
-                mask = mask << 1;
+                mask = (mask << 1);
             }
 
         }

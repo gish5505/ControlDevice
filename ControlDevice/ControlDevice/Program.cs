@@ -17,7 +17,7 @@ namespace ControlDevice
         {
 
 
-            /*            using (IListenerBoard board = GetListenerBoard()) //expected listener board is piso-813 analog input card, expected output card is piso-da2/da2u
+                        using (IListenerBoard board = GetListenerBoard()) //expected listener board is piso-813 analog input card, expected output card is piso-da2/da2u
                         {
                             var boardId = board.CardSearch();
 
@@ -26,12 +26,11 @@ namespace ControlDevice
                             var cardResult = board.CardPoll();
                             Console.WriteLine($"card result={cardResult}");
                             Console.ReadLine();
-
                         }
-                        */
+                      
 
-            outputBoard = new OutputBoard();
-            outputBoard.BoardPushValue(0);
+            //outputBoard = new OutputBoard();
+            //outputBoard.BoardPushValue(0);
         }
 
         private static IListenerBoard GetListenerBoard()

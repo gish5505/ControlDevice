@@ -45,13 +45,15 @@
             this.button1 = new System.Windows.Forms.Button();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(597, 262);
+            this.btnStart.Location = new System.Drawing.Point(597, 273);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(136, 41);
             this.btnStart.TabIndex = 1;
@@ -112,7 +114,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(211, 203);
+            this.textBox2.Location = new System.Drawing.Point(211, 256);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(64, 20);
             this.textBox2.TabIndex = 7;
@@ -130,7 +132,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(208, 187);
+            this.label2.Location = new System.Drawing.Point(208, 240);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(178, 13);
             this.label2.TabIndex = 9;
@@ -173,16 +175,17 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(211, 229);
+            this.button1.Location = new System.Drawing.Point(211, 282);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(89, 32);
             this.button1.TabIndex = 11;
             this.button1.Text = "Применить";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(211, 151);
+            this.textBox3.Location = new System.Drawing.Point(211, 204);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
             this.textBox3.Size = new System.Drawing.Size(64, 20);
@@ -191,19 +194,38 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(208, 134);
+            this.label3.Location = new System.Drawing.Point(208, 187);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(201, 13);
             this.label3.TabIndex = 13;
             this.label3.Text = "Активное значение тока на выход, мА";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(211, 151);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.ReadOnly = true;
+            this.textBox4.Size = new System.Drawing.Size(64, 20);
+            this.textBox4.TabIndex = 14;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(208, 131);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(136, 13);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "Усредненный вольтаж, В";
+            // 
             // ViewWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ClientSize = new System.Drawing.Size(772, 318);
+            this.ClientSize = new System.Drawing.Size(758, 333);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.button1);
@@ -240,6 +262,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Label label4;
     }
 }
 

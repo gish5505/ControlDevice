@@ -54,7 +54,8 @@ namespace ControlDevice.Models
         public void JumperSettings(short jumper)        
         {
 
-            var states = new string[][] {
+            var states = new string[][] 
+            {
                 new string [] { "Current output is 0-20 mA on channel 1", "Current output is 4-20 mA on channel 1" },
                 new string [] { "Reference voltage is –10 V on channel 1", "Reference voltage is –5 V on channel 1"},
                 new string [] { "Bipolar setting on channel 1", "Unipolar setting on channel 1"},

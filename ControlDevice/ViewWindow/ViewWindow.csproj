@@ -68,6 +68,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="Properties\DataSources\ControlDevice.Calculations.Calculations.datasource" />
+    <None Include="Properties\DataSources\ControlDevice.Calculations.CalculationViewModel.datasource" />
+    <None Include="Properties\DataSources\ControlDevice.Calculations.ICalculations.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -79,6 +82,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ControlDevice.Calculations\ControlDevice.Calculations.csproj">
+      <Project>{838d08ad-c24a-4fd4-b669-e49841d0e184}</Project>
+      <Name>ControlDevice.Calculations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ControlDevice.Models\ControlDevice.Models.csproj">
       <Project>{8198d039-da38-4cb1-ab87-66bfdb3ce5d7}</Project>
       <Name>ControlDevice.Models</Name>

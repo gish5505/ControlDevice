@@ -43,5 +43,11 @@
     <Compile Include="Calculations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ControlDevice.Models\ControlDevice.Models.csproj">
+      <Project>{8198d039-da38-4cb1-ab87-66bfdb3ce5d7}</Project>
+      <Name>ControlDevice.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

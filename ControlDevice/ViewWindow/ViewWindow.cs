@@ -22,10 +22,10 @@ namespace ViewWindow
         public ViewWindow()
         {
             InitializeComponent();
-
-            radioButton1.Checked = _useMock;
+            
 
         }
+
 
         private  void button1_Click(object sender, EventArgs e)
         {
@@ -72,11 +72,6 @@ namespace ViewWindow
 
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            _useMock = radioButton1.Checked;
-        }
-
 
         private  IListenerBoard GetListenerBoard(int boardNo)
         {            
@@ -98,7 +93,7 @@ namespace ViewWindow
             {
                 if (ctl is TextBox)
                 {
-                    ((TextBox)ctl).BackColor = Color.Aqua;
+                    ((TextBox)ctl).BackColor = Color.White;
                 }
             }
         }
@@ -124,6 +119,21 @@ namespace ViewWindow
         }
 
         private void button1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ViewWindow_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void calculationViewModelBindingSource_CurrentChanged(object sender, EventArgs e)
         {
 
         }

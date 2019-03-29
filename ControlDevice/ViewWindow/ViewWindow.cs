@@ -8,7 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
+
+//set this project as startup to enable window mode
 
 namespace ViewWindow
 {
@@ -17,66 +20,80 @@ namespace ViewWindow
 
         private bool _isStarted = false;
         private bool _useMock = true;
-        
+        private static System.Timers.Timer cardPollTimer;
 
         public ViewWindow()
         {
             InitializeComponent();
             
-
         }
 
 
-        private  void button1_Click(object sender, EventArgs e)
+        public  void button1_Click(object sender, EventArgs e) //event for start/stop button
         {
-            _isStarted = !_isStarted;
-            btnStart.Text = (_isStarted) ? "Стоп" : "Старт";
-            txtResult.Text = String.Empty;
-
-            Foo();
-
-            try
+            if (_isStarted == false)
             {
-                using (IListenerBoard board = GetListenerBoard(0))
+                _isStarted = !_isStarted;
+                btnStart.Text = (_isStarted) ? "Стоп" : "Старт";
+                txtResult.Text = String.Empty;
+
+                //Foo();
+                
+                
+                    IListenerBoard board = GetListenerBoard(0);
+
+                /*try
                 {
-                    //board.InitOperation();
-                    try
+                   using (IListenerBoard board = GetListenerBoard(0))
                     {
-                        for (int i = 0; i < 100; i++)
+                    
+                        try
                         {
-                            var results = 1;//board.ReadBuffer();
+                            for (int i = 0; i < 100; i++)
+                            {
+                                board.CardSearch();
+                                //var results = 1; board.ReadBuffer();
 
-                            var toShow = String.Join(",", results);
-                            txtResult.Text += toShow;
-                            //await Task.Delay(100).ConfigureAwait(false);
+                                var toShow = String.Join(",", results);
+                                txtResult.Text += toShow;
+                                //await Task.Delay(100).ConfigureAwait(false);
+                            }
                         }
+                        catch (Exception err)
+                        {
+                            txtResult.Text = err.Message + Environment.NewLine + err.StackTrace;
+                        }
+                        finally
+                        {
+                           // board.StopOperation();
+                        }
+                    
                     }
-                    catch (Exception err)
-                    {
-                        txtResult.Text = err.Message + Environment.NewLine + err.StackTrace;
-                    }
-                    finally
-                    {
-                       // board.StopOperation();
-                    }
-
                 }
+                catch(Exception err)
+                {
+                    txtResult.Text = err.Message + Environment.NewLine + err.StackTrace;
+                }*/
+
+                SetPollTimer();
+            
+
             }
-            catch(Exception err)
+
+            else
             {
-                txtResult.Text = err.Message + Environment.NewLine + err.StackTrace;
+                _isStarted = !_isStarted;
+                btnStart.Text = (_isStarted) ? "Стоп" : "Старт";
+                Dispose();
             }
-
-            _isStarted = !_isStarted;
-            btnStart.Text = (_isStarted) ? "Стоп" : "Старт";
-
         }
 
 
-        private  IListenerBoard GetListenerBoard(int boardNo)
+        public  IListenerBoard GetListenerBoard(int boardNo) // method for activating board in system
         {            
 
             IListenerBoard result;
+           
 
             //if (_useMock)
             //    result = new ListenerBoardMock(boardNo);
@@ -86,7 +103,27 @@ namespace ViewWindow
             return result;
         }
 
-        private void Foo()
+        private void SetPollTimer()
+        {
+            cardPollTimer = new System.Timers.Timer(1000);
+            cardPollTimer.Elapsed += OnTimerEvent;
+            cardPollTimer.AutoReset = true;
+            cardPollTimer.Enabled = true;
+
+
+        }
+
+        private void OnTimerEvent(object source,ElapsedEventArgs e)
+        {
+            using (IListenerBoard board=GetListenerBoard(0)) //NOT A SOLUTION
+            {
+                float cardPollValue = board.CardPoll();
+            }
+
+
+        }
+
+        /*private void Foo()
         {
 
             foreach (var ctl in this.Controls)
@@ -96,7 +133,7 @@ namespace ViewWindow
                     ((TextBox)ctl).BackColor = Color.White;
                 }
             }
-        }
+        }*/
 
         private void txtResult_TextChanged(object sender, EventArgs e)
         {
@@ -125,6 +162,8 @@ namespace ViewWindow
 
         private void ViewWindow_Load(object sender, EventArgs e)
         {
+            
+
 
         }
 
@@ -134,6 +173,21 @@ namespace ViewWindow
         }
 
         private void calculationViewModelBindingSource_CurrentChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chart1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }

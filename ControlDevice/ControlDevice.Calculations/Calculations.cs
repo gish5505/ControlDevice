@@ -29,7 +29,7 @@ namespace ControlDevice.Calculations
 
 
 
-    public class CalculationViewModel : INotifyPropertyChanged
+    public class CalculationViewModel : INotifyPropertyChanged  //winform fields update methods
     {
 
         public event PropertyChangedEventHandler PropertyChanged;

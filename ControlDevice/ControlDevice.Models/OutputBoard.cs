@@ -10,17 +10,17 @@ namespace ControlDevice.Models
 
     public class OutputBoard
     {
-        const byte boardNo = 0;
+        const byte boardNo = 0; //board id in system by default and output channel used(on time of writing)
         const byte channel = 2;
 
         public int TotalBoard { get; private set; }
 
         public OutputBoard()        //check for boards
         {
-            TotalBoard = PISODA2.TotalBoard();
+            int TotalBoard = PISODA2.TotalBoard();
 
             if (TotalBoard == 0)
-                throw new ApplicationException("PISODA2 boards not found");
+                AssertResul(TotalBoard,"PISODA2 boards not found");
             else
                 BoardActivation();
 
@@ -29,7 +29,7 @@ namespace ControlDevice.Models
         public void BoardActivation()       //activate boards 1-16 currently only for one
         {
 
-            var result = PISODA2.ActiveBoard(boardNo);
+            short result = PISODA2.ActiveBoard(boardNo);
 
             if (result > 0)
                 AssertResul(result, $"Board activation failure, error code: {result}");
@@ -41,7 +41,7 @@ namespace ControlDevice.Models
         public void BoardJumperConfig()     //read settings
         {
 
-            var result = PISODA2.ReadJumper(boardNo, out byte jumper);
+            short result = PISODA2.ReadJumper(boardNo, out byte jumper);
 
 
             if (result != 0)
@@ -51,7 +51,7 @@ namespace ControlDevice.Models
         }
 
 
-        public void JumperSettings(short jumper)        
+        public void JumperSettings(short jumper)        //text status of jumper configuration
         {
 
             var states = new string[][] 
@@ -80,7 +80,7 @@ namespace ControlDevice.Models
 
         public byte OutputMode { get; set; } = 1;       //0-voltage output; 1-current sink
 
-        public void BoardPushValue(float targetCurrent)
+        public void BoardPushValue(float targetCurrent) //use this method for pushing voltage value
         {
 
             var result = PISODA2.DA(boardNo, channel, OutputMode, targetCurrent);
@@ -89,7 +89,7 @@ namespace ControlDevice.Models
            
         }
 
-        private void AssertResul(short result, string message)      //method for exception throw
+        private void AssertResul(int result, string message)      //method for exception throw
         {
             if (result != 0)
                 throw new ApplicationException(message);

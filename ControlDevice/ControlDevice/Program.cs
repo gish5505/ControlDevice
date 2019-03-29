@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using PISO_Ns;
 using System.Threading;
-
+//used for console based input/testing, currently not active
 namespace ControlDevice 
 {
     class Program
@@ -16,7 +16,7 @@ namespace ControlDevice
         static void Main(string[] args)
         {
 
-
+                        //"using" is recommended for correct usage of IDisposable interface
                         using (IListenerBoard board = GetListenerBoard()) //expected listener board is piso-813 analog input card, expected output card is piso-da2/da2u
                         {
                             var boardId = board.CardSearch();
@@ -29,11 +29,11 @@ namespace ControlDevice
                         }
                       
 
-            //outputBoard = new OutputBoard();
-            //outputBoard.BoardPushValue(0);
+            outputBoard = new OutputBoard(); //remove comments and set as startup for enabling console mode
+            outputBoard.BoardPushValue(0);
         }
 
-        private static IListenerBoard GetListenerBoard()
+        private static IListenerBoard GetListenerBoard() //mock testing without driver
         {
             var configValue = ConfigurationManager.AppSettings["source"];
 

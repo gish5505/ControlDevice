@@ -8,7 +8,7 @@ using PISO_Ns;
 namespace ControlDevice.Models
 {
 
-    public interface IListenerBoard : IDisposable
+    public interface IListenerBoard : IDisposable //interfaces for implementing something else (check factory method)
     {
         int BoardNo { get; }
 
@@ -27,7 +27,7 @@ namespace ControlDevice.Models
     {
         private readonly ConfigAddress _config = null;
 
-        private ListenerBoard()
+        private ListenerBoard() //constructor
         {
 
         }
@@ -55,7 +55,7 @@ namespace ControlDevice.Models
 
 
 
-        public ushort CardSearch()
+        public ushort CardSearch() //method for detecting card in system
         {
 
             var result = PISO813.SearchCard(out ushort boardID, 0X800A00);
@@ -67,7 +67,7 @@ namespace ControlDevice.Models
         }
         //physical card address required 813-board 0 da2-board 1
 
-        private ConfigAddress GetConfigAddressSpace()
+        private ConfigAddress GetConfigAddressSpace() //getting card charasteristics and prepping for activation
         {
 //            var boardId = CardSearch();
 
@@ -130,28 +130,28 @@ namespace ControlDevice.Models
 
             */
 
-       public float CardPoll()
-        {
+       public float CardPoll() //use this method for getting data
+       {
 
             ushort Jump20v = 0;
             ushort Bipolar = 0; //1-yes, 0-no
 
-            var result = PISO813.AD_Float(_config.AddressBase,Jump20v, Bipolar);
+            float result = PISO813.AD_Float(_config.AddressBase,Jump20v, Bipolar);
             //should return -10 10, value scaled according to SetChGain
             if (result == -100)
                 throw new ApplicationException("a/d converter failed");
 
             return result;
-        }
+       }
 
-        public float[] ReadBuffer()
+        public float[] ReadBuffer()//scrapped
         {
             throw new NotImplementedException();
         }
                
 
 
-        public void Dispose()
+        public void Dispose() //mechanism for releasing resources
         {
             PISO813.DriverClose();
         }

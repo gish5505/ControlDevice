@@ -71,6 +71,7 @@
     <None Include="Properties\DataSources\ControlDevice.Calculations.Calculations.datasource" />
     <None Include="Properties\DataSources\ControlDevice.Calculations.CalculationViewModel.datasource" />
     <None Include="Properties\DataSources\ControlDevice.Calculations.ICalculations.datasource" />
+    <None Include="Properties\DataSources\ControlDevice.CalculationTest.SampleDataSource.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

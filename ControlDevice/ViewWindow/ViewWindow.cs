@@ -1,4 +1,5 @@
-﻿using ControlDevice.Models;
+﻿using ControlDevice.Calculations;
+using ControlDevice.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,28 +21,31 @@ namespace ViewWindow
 
         private bool _isStarted = false;
         private bool _useMock = true;
-        private static System.Timers.Timer cardPollTimer;
+        private CalculationViewModel _vm = new CalculationViewModel();
 
         public ViewWindow()
         {
             InitializeComponent();
             
+            
         }
 
 
-        public  void button1_Click(object sender, EventArgs e) //event for start/stop button
+        public  async void button1_Click(object sender, EventArgs e) //event for start/stop button
         {
-            if (_isStarted == false)
+            if (!_isStarted)
             {
                 _isStarted = !_isStarted;
                 btnStart.Text = (_isStarted) ? "Стоп" : "Старт";
                 txtResult.Text = String.Empty;
 
-                //Foo();
-                
-                
-                    IListenerBoard board = GetListenerBoard(0);
 
+
+
+                await Task.Factory.StartNew(() => this.Invoke( new Action(() => { _vm.Start(); })));
+
+
+                #region
                 /*try
                 {
                    using (IListenerBoard board = GetListenerBoard(0))
@@ -74,66 +78,29 @@ namespace ViewWindow
                 {
                     txtResult.Text = err.Message + Environment.NewLine + err.StackTrace;
                 }*/
-
-                SetPollTimer();
-            
-
+                #endregion
+               
             }
-
             else
             {
                 _isStarted = !_isStarted;
                 btnStart.Text = (_isStarted) ? "Стоп" : "Старт";
-                Dispose();
+
+                _vm.Stop();
+                
             }
         }
 
 
-        public  IListenerBoard GetListenerBoard(int boardNo) // method for activating board in system
-        {            
-
-            IListenerBoard result;
-           
-
-            //if (_useMock)
-            //    result = new ListenerBoardMock(boardNo);
-            //else
-                result = new ListenerBoard(boardNo);
-
-            return result;
+        private void BindControls()
+        {
+            //txtResult.DataBindings.Add(new Binding("Text", _vm, "Text") { DataSourceUpdateMode = DataSourceUpdateMode.Never });
+            txtResult.DataBindings.Add(new Binding("Text", _vm, "InboundVoltage") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
+            //txtResult.DataBindings.Add(new Binding("Text", _vm, "InboundVoltageAverage") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
+            //txtResult.DataBindings.Add(new Binding("Text", _vm, "OutboundCurrent") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
+            //txtResult.DataBindings.Add(new Binding("Text", _vm, "OutboundCurrentActive") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
         }
 
-        private void SetPollTimer()
-        {
-            cardPollTimer = new System.Timers.Timer(1000);
-            cardPollTimer.Elapsed += OnTimerEvent;
-            cardPollTimer.AutoReset = true;
-            cardPollTimer.Enabled = true;
-
-
-        }
-
-        private void OnTimerEvent(object source,ElapsedEventArgs e)
-        {
-            using (IListenerBoard board=GetListenerBoard(0)) //NOT A SOLUTION
-            {
-                float cardPollValue = board.CardPoll();
-            }
-
-
-        }
-
-        /*private void Foo()
-        {
-
-            foreach (var ctl in this.Controls)
-            {
-                if (ctl is TextBox)
-                {
-                    ((TextBox)ctl).BackColor = Color.White;
-                }
-            }
-        }*/
 
         private void txtResult_TextChanged(object sender, EventArgs e)
         {
@@ -162,9 +129,7 @@ namespace ViewWindow
 
         private void ViewWindow_Load(object sender, EventArgs e)
         {
-            
-
-
+            BindControls();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

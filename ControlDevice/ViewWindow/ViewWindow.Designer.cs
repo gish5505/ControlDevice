@@ -28,15 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.Title title6 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.btnStart = new System.Windows.Forms.Button();
             this.txtResult = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.calculationViewModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -46,7 +44,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.calculationViewModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -71,7 +68,6 @@
             // 
             // textBox1
             // 
-            this.textBox1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.calculationViewModelBindingSource, "InboundVoltage", true));
             this.textBox1.Location = new System.Drawing.Point(240, 40);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
@@ -79,14 +75,8 @@
             this.textBox1.TabIndex = 6;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // calculationViewModelBindingSource
-            // 
-            this.calculationViewModelBindingSource.DataSource = typeof(ControlDevice.Calculations.CalculationViewModel);
-            this.calculationViewModelBindingSource.CurrentChanged += new System.EventHandler(this.calculationViewModelBindingSource_CurrentChanged);
-            // 
             // textBox2
             // 
-            this.textBox2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.calculationViewModelBindingSource, "OutboundCurrent", true));
             this.textBox2.Location = new System.Drawing.Point(12, 34);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(64, 20);
@@ -117,36 +107,36 @@
             // 
             this.chart1.BackColor = System.Drawing.Color.DarkGray;
             this.chart1.BorderlineColor = System.Drawing.Color.Gray;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
+            chartArea3.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea3);
             this.chart1.Location = new System.Drawing.Point(12, 168);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            series1.YValuesPerPoint = 2;
-            this.chart1.Series.Add(series1);
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            series3.YValuesPerPoint = 2;
+            this.chart1.Series.Add(series3);
             this.chart1.Size = new System.Drawing.Size(605, 136);
             this.chart1.TabIndex = 10;
             this.chart1.Text = "chart1";
-            title1.Alignment = System.Drawing.ContentAlignment.TopCenter;
-            title1.DockedToChartArea = "ChartArea1";
-            title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            title1.DockingOffset = -2;
-            title1.IsDockedInsideChartArea = false;
-            title1.Name = "Title1";
-            title1.Text = "Время, сек";
-            title2.DockedToChartArea = "ChartArea1";
-            title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            title2.DockingOffset = 2;
-            title2.IsDockedInsideChartArea = false;
-            title2.Name = "Title2";
-            title2.Text = "Вольтаж, В";
-            title2.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Rotated270;
-            this.chart1.Titles.Add(title1);
-            this.chart1.Titles.Add(title2);
+            title5.Alignment = System.Drawing.ContentAlignment.TopCenter;
+            title5.DockedToChartArea = "ChartArea1";
+            title5.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            title5.DockingOffset = -2;
+            title5.IsDockedInsideChartArea = false;
+            title5.Name = "Title1";
+            title5.Text = "Время, сек";
+            title6.DockedToChartArea = "ChartArea1";
+            title6.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
+            title6.DockingOffset = 2;
+            title6.IsDockedInsideChartArea = false;
+            title6.Name = "Title2";
+            title6.Text = "Вольтаж, В";
+            title6.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Rotated270;
+            this.chart1.Titles.Add(title5);
+            this.chart1.Titles.Add(title6);
             this.chart1.Click += new System.EventHandler(this.chart1_Click);
             // 
             // button1
@@ -161,7 +151,6 @@
             // 
             // textBox3
             // 
-            this.textBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.calculationViewModelBindingSource, "OutboundCurrentActive", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.textBox3.Location = new System.Drawing.Point(240, 130);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
@@ -181,7 +170,6 @@
             // 
             // textBox4
             // 
-            this.textBox4.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.calculationViewModelBindingSource, "InboundVoltageAverage", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.textBox4.Location = new System.Drawing.Point(240, 89);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
@@ -218,7 +206,6 @@
             this.Name = "ViewWindow";
             this.Text = "magcontrol";
             this.Load += new System.EventHandler(this.ViewWindow_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.calculationViewModelBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -239,7 +226,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.BindingSource calculationViewModelBindingSource;
     }
 }
 

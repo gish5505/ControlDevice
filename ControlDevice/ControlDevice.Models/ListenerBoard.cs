@@ -159,63 +159,32 @@ namespace ControlDevice.Models
 
 
 
+    public class ListenerBoardMock : IListenerBoard
+    {
+        public int BoardNo => throw new NotImplementedException();
 
-    
+        public float CardPoll()
+        {
+            float i = 0;
+            i = i++;
+            return i;
+        }
 
-    //public class listenerboardmock : ilistenerboard
-    //{
-    //    private listenerboardmock()
-    //    {
+        public ushort CardSearch()
+        {
+            ushort i = 10;
+            i = i++;
+            return i;
+        }
 
-    //    }
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+    }
 
-    //    public listenerboardmock(int boardno)
-    //    {
-    //        boardno = boardno;
-    //    }
-    //    public int boardno { get; private set; }
 
-        
-    //    public float[] readbuffer()
-    //    {
-    //        var result = new[] { 1.0f, 2.0f, 3.0f };
 
-    //        //task.run(() => task.delay(100));
 
-    //        return result;
-    //    }
 
-    //   public float[] buffer()
-    //    {
-    //        throw new notimplementedexception();
-    //    }
-
-    //    public void dispose()
-    //    {
-            
-    //    }
-
-    //    public void initoperation()
-    //    {
-    //        //throw new notimplementedexception();
-    //    }
-
-    //    public void stopoperation()
-    //    {
-    //        //throw new notimplementedexception();
-    //    }
-
-    //    public ushort cardsearch()
-    //    {
-
-    //        return 178;
-    //    }
-
-    //    public float cardpoll()
-    //    {
-    //        return 61;
-    //    }
-        
-    //}
-    
 }

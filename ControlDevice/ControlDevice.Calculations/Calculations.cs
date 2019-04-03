@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using ControlDevice.Models;
+using System.Timers;
 
 namespace ControlDevice.Calculations
 {
@@ -29,15 +31,27 @@ namespace ControlDevice.Calculations
 
 
 
-    public class CalculationViewModel : INotifyPropertyChanged  //winform fields update methods
+    public class CalculationViewModel : INotifyPropertyChanged
     {
+
+        private IListenerBoard _board;
+
+        private double _outboundCurrent = 0;
+        private double _outboundCurrentActive = 0;
+        private double _inboundVoltage;
+        private double _inboundVoltageAverage;
+        private readonly Timer _cardPollTimer;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public CalculationViewModel()
-        {
-            _outboundCurrent = 0;
-            _outboundCurrentActive = 0;
+        {            
+            _cardPollTimer = new System.Timers.Timer(1000);
+            _cardPollTimer.Elapsed += (s, e) => {
+                
+                InboundVoltage = _board.CardPoll();
+            };
+
         }
 
 
@@ -47,10 +61,6 @@ namespace ControlDevice.Calculations
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private double _outboundCurrent;
-        private double _outboundCurrentActive;
-        private double _inboundVoltage;
-        private double _inboundVoltageAverage;
 
         public double OutboundCurrent
         {
@@ -79,6 +89,41 @@ namespace ControlDevice.Calculations
             set { _inboundVoltageAverage = value; OnPropertyChanged("InboundVoltageAverage"); }
             
         }
+
+        public void Start()
+        {
+            _board = GetListenerBoard();
+            _cardPollTimer.Start();
+        }
+
+        public void Stop()
+        {
+            _cardPollTimer.Stop();
+        }
+
+        private IListenerBoard GetListenerBoard() // method for activating board in system
+        {
+            if (_board != null)
+                return _board;
+
+            IListenerBoard result;
+
+
+            
+            result = new ListenerBoardMock();
+            
+            //result = new ListenerBoard(0);
+
+            return result;
+        }
+
+        private void SetPollTimer()
+        {
+                                                                            
+
+        }
+
+
 
     }
 }

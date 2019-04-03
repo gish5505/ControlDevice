@@ -28,28 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.Title title6 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.btnStart = new System.Windows.Forms.Button();
-            this.txtResult = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.voltageBox = new System.Windows.Forms.TextBox();
+            this.outputPendingBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.outputActiveBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.voltageAverageBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(610, 309);
+            this.btnStart.Location = new System.Drawing.Point(610, 285);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(136, 41);
             this.btnStart.TabIndex = 1;
@@ -57,31 +57,22 @@
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.button1_Click);
             // 
-            // txtResult
+            // voltageBox
             // 
-            this.txtResult.Location = new System.Drawing.Point(3, 320);
-            this.txtResult.Name = "txtResult";
-            this.txtResult.ReadOnly = true;
-            this.txtResult.Size = new System.Drawing.Size(582, 20);
-            this.txtResult.TabIndex = 5;
-            this.txtResult.TextChanged += new System.EventHandler(this.txtResult_TextChanged);
+            this.voltageBox.Location = new System.Drawing.Point(240, 40);
+            this.voltageBox.Name = "voltageBox";
+            this.voltageBox.ReadOnly = true;
+            this.voltageBox.Size = new System.Drawing.Size(64, 20);
+            this.voltageBox.TabIndex = 6;
+            this.voltageBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // textBox1
+            // outputPendingBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(240, 40);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(64, 20);
-            this.textBox1.TabIndex = 6;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(12, 34);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(64, 20);
-            this.textBox2.TabIndex = 7;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.outputPendingBox.Location = new System.Drawing.Point(12, 34);
+            this.outputPendingBox.Name = "outputPendingBox";
+            this.outputPendingBox.Size = new System.Drawing.Size(64, 20);
+            this.outputPendingBox.TabIndex = 7;
+            this.outputPendingBox.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // label1
             // 
@@ -107,36 +98,36 @@
             // 
             this.chart1.BackColor = System.Drawing.Color.DarkGray;
             this.chart1.BorderlineColor = System.Drawing.Color.Gray;
-            chartArea3.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea3);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
             this.chart1.Location = new System.Drawing.Point(12, 168);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            series3.YValuesPerPoint = 2;
-            this.chart1.Series.Add(series3);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            series1.YValuesPerPoint = 2;
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(605, 136);
             this.chart1.TabIndex = 10;
             this.chart1.Text = "chart1";
-            title5.Alignment = System.Drawing.ContentAlignment.TopCenter;
-            title5.DockedToChartArea = "ChartArea1";
-            title5.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            title5.DockingOffset = -2;
-            title5.IsDockedInsideChartArea = false;
-            title5.Name = "Title1";
-            title5.Text = "Время, сек";
-            title6.DockedToChartArea = "ChartArea1";
-            title6.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            title6.DockingOffset = 2;
-            title6.IsDockedInsideChartArea = false;
-            title6.Name = "Title2";
-            title6.Text = "Вольтаж, В";
-            title6.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Rotated270;
-            this.chart1.Titles.Add(title5);
-            this.chart1.Titles.Add(title6);
+            title1.Alignment = System.Drawing.ContentAlignment.TopCenter;
+            title1.DockedToChartArea = "ChartArea1";
+            title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            title1.DockingOffset = -2;
+            title1.IsDockedInsideChartArea = false;
+            title1.Name = "Title1";
+            title1.Text = "Время, сек";
+            title2.DockedToChartArea = "ChartArea1";
+            title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
+            title2.DockingOffset = 2;
+            title2.IsDockedInsideChartArea = false;
+            title2.Name = "Title2";
+            title2.Text = "Вольтаж, В";
+            title2.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Rotated270;
+            this.chart1.Titles.Add(title1);
+            this.chart1.Titles.Add(title2);
             this.chart1.Click += new System.EventHandler(this.chart1_Click);
             // 
             // button1
@@ -149,14 +140,14 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
-            // textBox3
+            // outputActiveBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(240, 130);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(64, 20);
-            this.textBox3.TabIndex = 12;
-            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
+            this.outputActiveBox.Location = new System.Drawing.Point(240, 130);
+            this.outputActiveBox.Name = "outputActiveBox";
+            this.outputActiveBox.ReadOnly = true;
+            this.outputActiveBox.Size = new System.Drawing.Size(64, 20);
+            this.outputActiveBox.TabIndex = 12;
+            this.outputActiveBox.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // label3
             // 
@@ -168,13 +159,13 @@
             this.label3.Text = "Активное значение тока на выход, мА";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
-            // textBox4
+            // voltageBoxAverage
             // 
-            this.textBox4.Location = new System.Drawing.Point(240, 89);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(64, 20);
-            this.textBox4.TabIndex = 14;
+            this.voltageAverageBox.Location = new System.Drawing.Point(240, 89);
+            this.voltageAverageBox.Name = "voltageBoxAverage";
+            this.voltageAverageBox.ReadOnly = true;
+            this.voltageAverageBox.Size = new System.Drawing.Size(64, 20);
+            this.voltageAverageBox.TabIndex = 14;
             // 
             // label4
             // 
@@ -185,23 +176,31 @@
             this.label4.TabIndex = 15;
             this.label4.Text = "Усредненный вольтаж, В";
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Location = new System.Drawing.Point(0, 329);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(758, 22);
+            this.statusStrip1.TabIndex = 16;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
             // ViewWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ClientSize = new System.Drawing.Size(758, 351);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.voltageAverageBox);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.outputActiveBox);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.txtResult);
+            this.Controls.Add(this.outputPendingBox);
+            this.Controls.Add(this.voltageBox);
             this.Controls.Add(this.btnStart);
             this.Name = "ViewWindow";
             this.Text = "magcontrol";
@@ -215,17 +214,17 @@
         #endregion
 
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.TextBox txtResult;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox voltageBox;
+        private System.Windows.Forms.TextBox outputPendingBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox outputActiveBox;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox voltageAverageBox;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.StatusStrip statusStrip1;
     }
 }
 

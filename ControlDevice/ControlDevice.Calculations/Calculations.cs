@@ -35,6 +35,7 @@ namespace ControlDevice.Calculations
     {
 
         private IListenerBoard _board;
+        private IOutputBoard _outputBoard;
 
         private double _outboundCurrent = 0;
         private double _outboundCurrentActive = 0;
@@ -45,14 +46,20 @@ namespace ControlDevice.Calculations
         public event PropertyChangedEventHandler PropertyChanged;
 
         public CalculationViewModel()
-        {            
-            _cardPollTimer = new System.Timers.Timer(1000);
+        {
+            OutboundCurrent = _outboundCurrent;
+            OutboundCurrentActive = _outboundCurrentActive;
+            _cardPollTimer = new System.Timers.Timer(5000);
+
             _cardPollTimer.Elapsed += (s, e) => {
                 
                 InboundVoltage = _board.CardPoll();
+                InboundVoltageAverage = (InboundVoltage + InboundVoltageAverage) / 2;
+
             };
 
         }
+
 
 
         private void OnPropertyChanged(string propertyName)
@@ -94,6 +101,7 @@ namespace ControlDevice.Calculations
         {
             _board = GetListenerBoard();
             _cardPollTimer.Start();
+            _outputBoard = GetOutputBoard();
         }
 
         public void Stop()
@@ -117,11 +125,16 @@ namespace ControlDevice.Calculations
             return result;
         }
 
-        private void SetPollTimer()
+        private IOutputBoard GetOutputBoard()
         {
-                                                                            
+            if (_outputBoard != null)
+                return _outputBoard;
 
+            //return new OutputBoard();
+            return new OutputBoardMock();
         }
+
+       
 
 
 

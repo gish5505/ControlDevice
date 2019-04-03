@@ -8,8 +8,18 @@ using PISO_DA2_Ns;
 namespace ControlDevice.Models
 {
 
-    public class OutputBoard
+    public interface IOutputBoard : IDisposable
     {
+        void BoardPushValue(float targetCurrent);
+        
+
+
+    }
+
+
+    public class OutputBoard : IOutputBoard
+    {
+
         const byte boardNo = 0; //board id in system by default and output channel used(on time of writing)
         const byte channel = 2;
 
@@ -89,6 +99,7 @@ namespace ControlDevice.Models
            
         }
 
+
         private void AssertResul(int result, string message)      //method for exception throw
         {
             if (result != 0)
@@ -96,11 +107,31 @@ namespace ControlDevice.Models
 
         }
 
+
+
         private void Dispose()          //release resource
         {
 
             PISODA2.CloseBoard((byte)TotalBoard);
 
+        }
+
+        void IDisposable.Dispose()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class OutputBoardMock : IOutputBoard
+    {
+        public void BoardPushValue(float targetCurrent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

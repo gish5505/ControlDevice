@@ -31,18 +31,19 @@ namespace ViewWindow
         }
 
 
-        public  async void button1_Click(object sender, EventArgs e) //event for start/stop button
+        public void button1_Click(object sender, EventArgs e) //event for start/stop button
         {
             if (!_isStarted)
             {
                 _isStarted = !_isStarted;
                 btnStart.Text = (_isStarted) ? "Стоп" : "Старт";
-                txtResult.Text = String.Empty;
+                
 
+                _vm.Start();
 
-
-
-                await Task.Factory.StartNew(() => this.Invoke( new Action(() => { _vm.Start(); })));
+                //if (txtResult.InvokeRequired)
+                //await Task.Run(() => txtResult.Invoke( new Action(() => { _vm.Start(); })));
+                //await Task.Run(() =>  { _vm.Start(); }).ConfigureAwait(true);
 
 
                 #region
@@ -79,7 +80,7 @@ namespace ViewWindow
                     txtResult.Text = err.Message + Environment.NewLine + err.StackTrace;
                 }*/
                 #endregion
-               
+
             }
             else
             {
@@ -94,11 +95,13 @@ namespace ViewWindow
 
         private void BindControls()
         {
+            var threadSafeVM = new SynchronizedNotifyPropertyChanged<CalculationViewModel>(_vm, this);
+
             //txtResult.DataBindings.Add(new Binding("Text", _vm, "Text") { DataSourceUpdateMode = DataSourceUpdateMode.Never });
-            txtResult.DataBindings.Add(new Binding("Text", _vm, "InboundVoltage") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
-            //txtResult.DataBindings.Add(new Binding("Text", _vm, "InboundVoltageAverage") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
-            //txtResult.DataBindings.Add(new Binding("Text", _vm, "OutboundCurrent") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
-            //txtResult.DataBindings.Add(new Binding("Text", _vm, "OutboundCurrentActive") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
+            voltageBox.DataBindings.Add(new Binding("Text", threadSafeVM, "InboundVoltage") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
+            voltageAverageBox.DataBindings.Add(new Binding("Text", threadSafeVM, "InboundVoltageAverage") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
+            outputActiveBox.DataBindings.Add(new Binding("Text", threadSafeVM, "OutboundCurrentActive") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
+            outputPendingBox.DataBindings.Add(new Binding("Text", threadSafeVM, "OutboundCurrentActive") { DataSourceUpdateMode = DataSourceUpdateMode.Never });
         }
 
 
@@ -124,7 +127,7 @@ namespace ViewWindow
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-
+            outputPendingBox.DataBindings["Text"].WriteValue();
         }
 
         private void ViewWindow_Load(object sender, EventArgs e)
@@ -156,5 +159,94 @@ namespace ViewWindow
         {
 
         }
+    }
+
+
+    public class SynchronizedNotifyPropertyChanged<T> : INotifyPropertyChanged, ICustomTypeDescriptor
+    where T : INotifyPropertyChanged
+    {
+        private readonly T _source;
+        private readonly ISynchronizeInvoke _syncObject;
+
+        public SynchronizedNotifyPropertyChanged(T source, ISynchronizeInvoke syncObject)
+        {
+            _source = source;
+            _syncObject = syncObject;
+
+            _source.PropertyChanged += (sender, args) => OnPropertyChanged(args.PropertyName);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged == null) return;
+
+            var handler = PropertyChanged;
+            _syncObject.BeginInvoke(handler, new object[] { this, new PropertyChangedEventArgs(propertyName) });
+        }
+
+        public T Source { get { return _source; } }
+
+        #region ICustomTypeDescriptor
+        public AttributeCollection GetAttributes()
+        {
+            return new AttributeCollection(null);
+        }
+
+        public string GetClassName()
+        {
+            return TypeDescriptor.GetClassName(typeof(T));
+        }
+
+        public string GetComponentName()
+        {
+            return TypeDescriptor.GetComponentName(typeof(T));
+        }
+
+        public TypeConverter GetConverter()
+        {
+            return TypeDescriptor.GetConverter(typeof(T));
+        }
+
+        public EventDescriptor GetDefaultEvent()
+        {
+            return TypeDescriptor.GetDefaultEvent(typeof(T));
+        }
+
+        public PropertyDescriptor GetDefaultProperty()
+        {
+            return TypeDescriptor.GetDefaultProperty(typeof(T));
+        }
+
+        public object GetEditor(Type editorBaseType)
+        {
+            return TypeDescriptor.GetEditor(typeof(T), editorBaseType);
+        }
+
+        public EventDescriptorCollection GetEvents()
+        {
+            return TypeDescriptor.GetEvents(typeof(T));
+        }
+
+        public EventDescriptorCollection GetEvents(Attribute[] attributes)
+        {
+            return TypeDescriptor.GetEvents(typeof(T), attributes);
+        }
+
+        public PropertyDescriptorCollection GetProperties()
+        {
+            return TypeDescriptor.GetProperties(typeof(T));
+        }
+
+        public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
+        {
+            return TypeDescriptor.GetProperties(typeof(T), attributes);
+        }
+
+        public object GetPropertyOwner(PropertyDescriptor pd)
+        {
+            return _source;
+        }
+        #endregion ICustomTypeDescriptor
     }
 }

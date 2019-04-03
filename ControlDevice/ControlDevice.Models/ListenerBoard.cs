@@ -163,18 +163,17 @@ namespace ControlDevice.Models
     {
         public int BoardNo => throw new NotImplementedException();
 
+        private int _count = 2;
+   
         public float CardPoll()
         {
-            float i = 0;
-            i = i++;
-            return i;
+           
+            return _count++;
         }
 
         public ushort CardSearch()
         {
-            ushort i = 10;
-            i = i++;
-            return i;
+            return (ushort)-_count--;
         }
 
         public void Dispose()

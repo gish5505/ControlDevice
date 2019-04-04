@@ -100,7 +100,7 @@ namespace ViewWindow
             //txtResult.DataBindings.Add(new Binding("Text", _vm, "Text") { DataSourceUpdateMode = DataSourceUpdateMode.Never });
             voltageBox.DataBindings.Add(new Binding("Text", threadSafeVM, "InboundVoltage") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
             voltageAverageBox.DataBindings.Add(new Binding("Text", threadSafeVM, "InboundVoltageAverage") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
-            outputActiveBox.DataBindings.Add(new Binding("Text", threadSafeVM, "OutboundCurrentActive") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
+            outputActiveBox.DataBindings.Add(new Binding("Text", threadSafeVM, "OutboundCurrentActive") { DataSourceUpdateMode = DataSourceUpdateMode.Never });
             outputPendingBox.DataBindings.Add(new Binding("Text", threadSafeVM, "OutboundCurrentActive") { DataSourceUpdateMode = DataSourceUpdateMode.Never });
         }
 
@@ -127,7 +127,11 @@ namespace ViewWindow
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            outputPendingBox.DataBindings["Text"].WriteValue();
+            if (_isStarted)
+            {
+                _vm.OutputBoardPush(float.Parse(outputPendingBox.Text, System.Globalization.CultureInfo.InvariantCulture));
+            }
+
         }
 
         private void ViewWindow_Load(object sender, EventArgs e)
@@ -162,7 +166,7 @@ namespace ViewWindow
     }
 
 
-    public class SynchronizedNotifyPropertyChanged<T> : INotifyPropertyChanged, ICustomTypeDescriptor
+    public class SynchronizedNotifyPropertyChanged<T> : INotifyPropertyChanged, ICustomTypeDescriptor           //threadsafe ipropertychanged
     where T : INotifyPropertyChanged
     {
         private readonly T _source;

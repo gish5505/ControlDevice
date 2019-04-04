@@ -37,8 +37,8 @@ namespace ControlDevice.Calculations
         private IListenerBoard _board;
         private IOutputBoard _outputBoard;
 
-        private double _outboundCurrent = 0;
-        private double _outboundCurrentActive = 0;
+        private double _outboundCurrent;
+        private double _outboundCurrentActive;
         private double _inboundVoltage;
         private double _inboundVoltageAverage;
         private readonly Timer _cardPollTimer;
@@ -49,7 +49,7 @@ namespace ControlDevice.Calculations
         {
             OutboundCurrent = _outboundCurrent;
             OutboundCurrentActive = _outboundCurrentActive;
-            _cardPollTimer = new System.Timers.Timer(5000);
+            _cardPollTimer = new System.Timers.Timer(3000);
 
             _cardPollTimer.Elapsed += (s, e) => {
                 
@@ -118,9 +118,9 @@ namespace ControlDevice.Calculations
 
 
             
-            result = new ListenerBoardMock();
+            //result = new ListenerBoardMock();
             
-            //result = new ListenerBoard(0);
+            result = new ListenerBoard(0);
 
             return result;
         }
@@ -130,11 +130,16 @@ namespace ControlDevice.Calculations
             if (_outputBoard != null)
                 return _outputBoard;
 
-            //return new OutputBoard();
-            return new OutputBoardMock();
+            return new OutputBoard();
+            //return new OutputBoardMock();
         }
 
-       
+       public void OutputBoardPush(float inboundCurrentFromControl)
+        {
+
+            _outputBoard.BoardPushValue((float)inboundCurrentFromControl);
+
+        }
 
 
 

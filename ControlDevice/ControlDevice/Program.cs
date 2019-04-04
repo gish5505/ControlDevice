@@ -30,7 +30,7 @@ namespace ControlDevice
                       
 
             outputBoard = new OutputBoard(); //remove comments and set as startup for enabling console mode
-            outputBoard.BoardPushValue(0);
+            outputBoard.BoardPushValue(2);
         }
 
         private static IListenerBoard GetListenerBoard() //mock testing without driver

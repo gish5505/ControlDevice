@@ -100,8 +100,7 @@ namespace ViewWindow
             //txtResult.DataBindings.Add(new Binding("Text", _vm, "Text") { DataSourceUpdateMode = DataSourceUpdateMode.Never });
             voltageBox.DataBindings.Add(new Binding("Text", threadSafeVM, "InboundVoltage") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
             voltageAverageBox.DataBindings.Add(new Binding("Text", threadSafeVM, "InboundVoltageAverage") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
-            outputActiveBox.DataBindings.Add(new Binding("Text", threadSafeVM, "OutboundCurrentActive") { DataSourceUpdateMode = DataSourceUpdateMode.Never });
-            outputPendingBox.DataBindings.Add(new Binding("Text", threadSafeVM, "OutboundCurrentActive") { DataSourceUpdateMode = DataSourceUpdateMode.Never });
+            //outputActiveBox.DataBindings.Add(new Binding("Text", threadSafeVM, "OutboundCurrentActive") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
         }
 
 
@@ -127,9 +126,12 @@ namespace ViewWindow
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            if (_isStarted)
+            //bool isParsable= float.TryParse(outputPendingBox.Text, out float result)
+            if (_isStarted /*& isParsable*/) 
             {
-                _vm.OutputBoardPush(float.Parse(outputPendingBox.Text, System.Globalization.CultureInfo.InvariantCulture));
+                float pushValue = float.Parse(outputPendingBox.Text, System.Globalization.CultureInfo.InvariantCulture);
+                _vm.OutputBoardPush(pushValue);
+                outputActiveBox.Text = outputPendingBox.Text;
             }
 
         }

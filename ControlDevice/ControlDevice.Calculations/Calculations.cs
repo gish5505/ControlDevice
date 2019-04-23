@@ -49,7 +49,7 @@ namespace ControlDevice.Calculations
         {
             OutboundCurrent = _outboundCurrent;
             OutboundCurrentActive = _outboundCurrentActive;
-            _cardPollTimer = new System.Timers.Timer(3000);
+            _cardPollTimer = new System.Timers.Timer(1000);
 
             _cardPollTimer.Elapsed += (s, e) => {
                 

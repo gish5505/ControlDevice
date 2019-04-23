@@ -118,9 +118,9 @@ namespace ControlDevice.Calculations
 
 
             
-            //result = new ListenerBoardMock();
+            result = new ListenerBoardMock();
             
-            result = new ListenerBoard(0);
+            //result = new ListenerBoard(0);
 
             return result;
         }
@@ -130,13 +130,14 @@ namespace ControlDevice.Calculations
             if (_outputBoard != null)
                 return _outputBoard;
 
-            return new OutputBoard();
-            //return new OutputBoardMock();
+            //return new OutputBoard();
+            return new OutputBoardMock();
         }
 
        public void OutputBoardPush(float inboundCurrentFromControl)
         {
 
+            _outboundCurrentActive = inboundCurrentFromControl;
             _outputBoard.BoardPushValue((float)inboundCurrentFromControl);
 
         }

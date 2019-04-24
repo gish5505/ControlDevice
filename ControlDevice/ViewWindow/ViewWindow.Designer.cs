@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.btnStart = new System.Windows.Forms.Button();
             this.voltageBox = new System.Windows.Forms.TextBox();
             this.outputPendingBox = new System.Windows.Forms.TextBox();
@@ -92,36 +92,36 @@
             // 
             this.chart1.BackColor = System.Drawing.Color.DarkGray;
             this.chart1.BorderlineColor = System.Drawing.Color.Gray;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
             this.chart1.Location = new System.Drawing.Point(12, 28);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            series1.YValuesPerPoint = 2;
-            this.chart1.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            series2.YValuesPerPoint = 2;
+            this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(685, 299);
             this.chart1.TabIndex = 10;
             this.chart1.Text = "chart1";
-            title1.Alignment = System.Drawing.ContentAlignment.TopCenter;
-            title1.DockedToChartArea = "ChartArea1";
-            title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            title1.DockingOffset = -2;
-            title1.IsDockedInsideChartArea = false;
-            title1.Name = "Title1";
-            title1.Text = "Время, сек";
-            title2.DockedToChartArea = "ChartArea1";
-            title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            title2.DockingOffset = 2;
-            title2.IsDockedInsideChartArea = false;
-            title2.Name = "Title2";
-            title2.Text = "Вольтаж, В";
-            title2.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Rotated270;
-            this.chart1.Titles.Add(title1);
-            this.chart1.Titles.Add(title2);
+            title3.Alignment = System.Drawing.ContentAlignment.TopCenter;
+            title3.DockedToChartArea = "ChartArea1";
+            title3.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            title3.DockingOffset = -2;
+            title3.IsDockedInsideChartArea = false;
+            title3.Name = "Title1";
+            title3.Text = "Время, сек";
+            title4.DockedToChartArea = "ChartArea1";
+            title4.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
+            title4.DockingOffset = 2;
+            title4.IsDockedInsideChartArea = false;
+            title4.Name = "Title2";
+            title4.Text = "Вольтаж, В";
+            title4.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Rotated270;
+            this.chart1.Titles.Add(title3);
+            this.chart1.Titles.Add(title4);
             this.chart1.Click += new System.EventHandler(this.chart1_Click);
             // 
             // button1
@@ -202,7 +202,8 @@
             this.groupBox2.Size = new System.Drawing.Size(220, 168);
             this.groupBox2.TabIndex = 18;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "groupBox2";
+            this.groupBox2.Text = "Активные значения";
+            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
             // 
             // ViewWindow
             // 

@@ -28,7 +28,21 @@ namespace ControlDevice.Calculations
         }
     }
 
+    public class FixedSizeQueue<T>
+    {
+        FixedSizeQueue<float> fixedSizeQueue = new FixedSizeQueue<float>();
+        private object lockObject = new object();
 
+        public int Limit { get; set; }
+        public void Enqueue(T obj)
+        {
+
+
+
+        }
+
+
+    }
 
 
     public class CalculationViewModel : INotifyPropertyChanged

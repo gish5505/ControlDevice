@@ -119,16 +119,6 @@ namespace ControlDevice.Models
 
         }
 
-        /*
-        public uint TakeFromPortInput()
-        {
-            
-            var result = PISO813.InputByte((ushort)_config.AddressBase);
-
-            return result;
-        }
-
-            */
 
        public float CardPoll() //use this method for getting data
        {
@@ -144,12 +134,6 @@ namespace ControlDevice.Models
             return result;
        }
 
-        public float[] ReadBuffer()//scrapped
-        {
-            throw new NotImplementedException();
-        }
-               
-
 
         public void Dispose() //mechanism for releasing resources
         {
@@ -161,14 +145,23 @@ namespace ControlDevice.Models
 
     public class ListenerBoardMock : IListenerBoard
     {
+        Random _rnd = new Random(DateTime.Now.Millisecond);
+
+        public ListenerBoardMock()
+        {
+
+        }
+
         public int BoardNo => throw new NotImplementedException();
 
         private int _count = 2;
    
         public float CardPoll()
         {
-           
-            return _count++;
+            var result = _rnd.NextDouble() * 5;
+
+            return (float)result;
+            //return _count++;
         }
 
         public ushort CardSearch()

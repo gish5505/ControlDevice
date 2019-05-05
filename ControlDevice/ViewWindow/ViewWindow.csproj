@@ -70,6 +70,7 @@
     <None Include="app.config" />
     <None Include="Properties\DataSources\ControlDevice.Calculations.Calculations.datasource" />
     <None Include="Properties\DataSources\ControlDevice.Calculations.CalculationViewModel.datasource" />
+    <None Include="Properties\DataSources\ControlDevice.Calculations.DoubleFixedSizeQueue.datasource" />
     <None Include="Properties\DataSources\ControlDevice.Calculations.ICalculations.datasource" />
     <None Include="Properties\DataSources\ControlDevice.CalculationTest.SampleDataSource.datasource" />
     <None Include="Properties\Settings.settings">

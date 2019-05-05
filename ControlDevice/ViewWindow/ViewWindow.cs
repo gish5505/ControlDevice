@@ -23,64 +23,25 @@ namespace ViewWindow
         private bool _useMock = true;
         private CalculationViewModel _vm = new CalculationViewModel();
 
+        private SynchronizedNotifyPropertyChanged<CalculationViewModel> _threadSafeVM;
+
         public ViewWindow()
         {
             InitializeComponent();
             
-            
+            _threadSafeVM = new SynchronizedNotifyPropertyChanged<CalculationViewModel>(_vm, this);
         }
 
 
-        public void button1_Click(object sender, EventArgs e) //event for start/stop button
+        public void startButton_Click(object sender, EventArgs e) //event for start/stop button
         {
             if (!_isStarted)
             {
                 _isStarted = !_isStarted;
                 btnStart.Text = (_isStarted) ? "Стоп" : "Старт";
                 
-
                 _vm.Start();
-
-                //if (txtResult.InvokeRequired)
-                //await Task.Run(() => txtResult.Invoke( new Action(() => { _vm.Start(); })));
-                //await Task.Run(() =>  { _vm.Start(); }).ConfigureAwait(true);
-
-
-                #region
-                /*try
-                {
-                   using (IListenerBoard board = GetListenerBoard(0))
-                    {
-                    
-                        try
-                        {
-                            for (int i = 0; i < 100; i++)
-                            {
-                                board.CardSearch();
-                                //var results = 1; board.ReadBuffer();
-
-                                var toShow = String.Join(",", results);
-                                txtResult.Text += toShow;
-                                //await Task.Delay(100).ConfigureAwait(false);
-                            }
-                        }
-                        catch (Exception err)
-                        {
-                            txtResult.Text = err.Message + Environment.NewLine + err.StackTrace;
-                        }
-                        finally
-                        {
-                           // board.StopOperation();
-                        }
-                    
-                    }
-                }
-                catch(Exception err)
-                {
-                    txtResult.Text = err.Message + Environment.NewLine + err.StackTrace;
-                }*/
-                #endregion
-
+                
             }
             else
             {
@@ -90,41 +51,16 @@ namespace ViewWindow
                 _vm.Stop();
                 
             }
-        }
-
+        }        
 
         private void BindControls()
-        {
-            var threadSafeVM = new SynchronizedNotifyPropertyChanged<CalculationViewModel>(_vm, this);
-
-            //txtResult.DataBindings.Add(new Binding("Text", _vm, "Text") { DataSourceUpdateMode = DataSourceUpdateMode.Never });
-            voltageBox.DataBindings.Add(new Binding("Text", threadSafeVM, "InboundVoltage") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
-            voltageAverageBox.DataBindings.Add(new Binding("Text", threadSafeVM, "InboundVoltageAverage") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
-            //outputActiveBox.DataBindings.Add(new Binding("Text", threadSafeVM, "OutboundCurrentActive") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
+        {                        
+            voltageBox.DataBindings.Add(new Binding("Text", _threadSafeVM, "InboundVoltage") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });
+            voltageAverageBox.DataBindings.Add(new Binding("Text", _threadSafeVM, "InboundVoltageAverage") { DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged });                                                            
         }
+       
 
-
-        private void txtResult_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
+        private void pushButton_Click(object sender, EventArgs e)
         {
             //bool isParsable= float.TryParse(outputPendingBox.Text, out float result)
             if (_isStarted /*& isParsable*/) 
@@ -136,45 +72,47 @@ namespace ViewWindow
 
         }
 
+        
+
         private void ViewWindow_Load(object sender, EventArgs e)
         {
+            this.chart1.Series.Add("YValues");
+            this.chart1.Series["YValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            chart1.ChartAreas[0].AxisX.IsMarginVisible = false;
+
+            //chart1.ChartAreas[0].AxisX.Maximum = 10;
+            //chart1.ChartAreas[0].AxisX.Minimum = 1;
+
             BindControls();
+
+            int _pointRefreshLimit = 0;
+
+            _threadSafeVM.PropertyChanged += (s, args) => {
+                if (args.PropertyName == "InternalQueue")
+                {
+                    //var point = ((SynchronizedNotifyPropertyChanged<CalculationViewModel>)s).Source.Values.Queue.Last();
+                    if (_vm.InternalQueue.Queue != null)
+                    {
+                        _pointRefreshLimit = _vm.InternalQueue.Queue.Count();
+                    }
+
+                    chart1.Series["YValues"].Points.Clear();
+
+
+                    for (int _localPointCounter = 0;  _localPointCounter < _pointRefreshLimit - 1; ++_localPointCounter)
+                    {
+                        this.chart1.Series["YValues"].Points.AddY(_vm.InternalQueue.Queue.ElementAt(_localPointCounter));
+                    }
+                }
+            };
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
 
-        }
-
-        private void calculationViewModelBindingSource_CurrentChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void chart1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
-        }
     }
 
 
     public class SynchronizedNotifyPropertyChanged<T> : INotifyPropertyChanged, ICustomTypeDescriptor           //threadsafe ipropertychanged
-    where T : INotifyPropertyChanged
+        where T : INotifyPropertyChanged
     {
         private readonly T _source;
         private readonly ISynchronizeInvoke _syncObject;

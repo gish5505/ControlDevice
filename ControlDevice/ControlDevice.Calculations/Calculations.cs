@@ -28,22 +28,48 @@ namespace ControlDevice.Calculations
         }
     }
 
-    public class FixedSizeQueue<T>
+    public interface IDataSourceQueue
     {
-        FixedSizeQueue<float> fixedSizeQueue = new FixedSizeQueue<float>();
-        private object lockObject = new object();
-
-        public int Limit { get; set; }
-        public void Enqueue(T obj)
-        {
-
-
-
-        }
-
+        float DataSourceQueue();
 
     }
 
+    public class FixedSizeQueue<T> 
+    {
+        private Queue<T> _fixedSizeQueue;
+
+        public FixedSizeQueue(int limit)
+        {
+            Limit = limit;
+            _fixedSizeQueue = new Queue<T>(limit);
+        }
+                
+        public int Limit { get; private set; }
+
+        public Queue<T> Queue { get { return _fixedSizeQueue; } }
+
+        public void Enqueue(T obj)
+        {
+            if (_fixedSizeQueue.Count < Limit)
+            {
+                _fixedSizeQueue.Enqueue(obj);
+            }
+            else
+            {
+                _fixedSizeQueue.Dequeue();
+            }
+        }
+
+    }
+
+    public class DoubleFixedSizeQueue : FixedSizeQueue<double>
+    {
+        public DoubleFixedSizeQueue(int limit) 
+            : base(limit)
+        {
+        }
+
+    }
 
     public class CalculationViewModel : INotifyPropertyChanged
     {
@@ -55,7 +81,7 @@ namespace ControlDevice.Calculations
         private double _outboundCurrentActive;
         private double _inboundVoltage;
         private double _inboundVoltageAverage;
-        private readonly Timer _cardPollTimer;
+        private readonly Timer _cardPollTimer;        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -65,17 +91,26 @@ namespace ControlDevice.Calculations
             OutboundCurrentActive = _outboundCurrentActive;
             _cardPollTimer = new System.Timers.Timer(100);
 
+            InternalQueue = new DoubleFixedSizeQueue(100); ;
+
             _cardPollTimer.Elapsed += (s, e) => {
                 
                 InboundVoltage = _board.CardPoll();
+
                 InboundVoltageAverage = (InboundVoltage + InboundVoltageAverage) / 2;
 
+                InternalQueue.Enqueue(InboundVoltageAverage);
+
+                OnPropertyChanged("InternalQueue");
+                
             };
 
         }
 
+        public DoubleFixedSizeQueue InternalQueue { get; private set; }
 
 
+        #region OnPropertyChanged
         private void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
@@ -110,6 +145,7 @@ namespace ControlDevice.Calculations
             set { _inboundVoltageAverage = value; OnPropertyChanged("InboundVoltageAverage"); }
             
         }
+        #endregion
 
         public void Start()
         {
@@ -132,9 +168,9 @@ namespace ControlDevice.Calculations
 
 
             
-            //result = new ListenerBoardMock();
+            result = new ListenerBoardMock();
             
-            result = new ListenerBoard(0);
+            //result = new ListenerBoard(0);
 
             return result;
         }
@@ -144,8 +180,8 @@ namespace ControlDevice.Calculations
             if (_outputBoard != null)
                 return _outputBoard;
 
-            return new OutputBoard();
-            //return new OutputBoardMock();
+            //return new OutputBoard();
+            return new OutputBoardMock();
         }
 
        public void OutputBoardPush(float inboundCurrentFromControl)

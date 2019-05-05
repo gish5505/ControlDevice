@@ -28,15 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.btnStart = new System.Windows.Forms.Button();
             this.voltageBox = new System.Windows.Forms.TextBox();
             this.outputPendingBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.doubleFixedSizeQueueBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.outputActiveBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -46,6 +47,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doubleFixedSizeQueueBindingSource)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -58,7 +60,7 @@
             this.btnStart.TabIndex = 1;
             this.btnStart.Text = "Старт";
             this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.button1_Click);
+            this.btnStart.Click += new System.EventHandler(this.startButton_Click);
             // 
             // voltageBox
             // 
@@ -67,7 +69,6 @@
             this.voltageBox.ReadOnly = true;
             this.voltageBox.Size = new System.Drawing.Size(195, 20);
             this.voltageBox.TabIndex = 6;
-            this.voltageBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // outputPendingBox
             // 
@@ -75,7 +76,6 @@
             this.outputPendingBox.Name = "outputPendingBox";
             this.outputPendingBox.Size = new System.Drawing.Size(64, 20);
             this.outputPendingBox.TabIndex = 7;
-            this.outputPendingBox.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // label1
             // 
@@ -86,43 +86,40 @@
             this.label1.Size = new System.Drawing.Size(142, 13);
             this.label1.TabIndex = 8;
             this.label1.Text = "Вольтаж на магнетроне, В";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // chart1
             // 
             this.chart1.BackColor = System.Drawing.Color.DarkGray;
             this.chart1.BorderlineColor = System.Drawing.Color.Gray;
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            this.chart1.DataSource = this.doubleFixedSizeQueueBindingSource;
             this.chart1.Location = new System.Drawing.Point(12, 28);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            series2.YValuesPerPoint = 2;
-            this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(685, 299);
             this.chart1.TabIndex = 10;
             this.chart1.Text = "chart1";
-            title3.Alignment = System.Drawing.ContentAlignment.TopCenter;
-            title3.DockedToChartArea = "ChartArea1";
-            title3.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            title3.DockingOffset = -2;
-            title3.IsDockedInsideChartArea = false;
-            title3.Name = "Title1";
-            title3.Text = "Время, сек";
-            title4.DockedToChartArea = "ChartArea1";
-            title4.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            title4.DockingOffset = 2;
-            title4.IsDockedInsideChartArea = false;
-            title4.Name = "Title2";
-            title4.Text = "Вольтаж, В";
-            title4.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Rotated270;
-            this.chart1.Titles.Add(title3);
-            this.chart1.Titles.Add(title4);
-            this.chart1.Click += new System.EventHandler(this.chart1_Click);
+            title1.Alignment = System.Drawing.ContentAlignment.TopCenter;
+            title1.DockedToChartArea = "ChartArea1";
+            title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            title1.DockingOffset = -2;
+            title1.IsDockedInsideChartArea = false;
+            title1.Name = "Title1";
+            title1.Text = "Время, сек";
+            title2.DockedToChartArea = "ChartArea1";
+            title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
+            title2.DockingOffset = 2;
+            title2.IsDockedInsideChartArea = false;
+            title2.Name = "Title2";
+            title2.Text = "Вольтаж, В";
+            title2.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Rotated270;
+            this.chart1.Titles.Add(title1);
+            this.chart1.Titles.Add(title2);
+            // 
+            // doubleFixedSizeQueueBindingSource
+            // 
+            this.doubleFixedSizeQueueBindingSource.DataSource = typeof(ControlDevice.Calculations.DoubleFixedSizeQueue);
             // 
             // button1
             // 
@@ -132,7 +129,7 @@
             this.button1.TabIndex = 11;
             this.button1.Text = "Применить";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.button1.Click += new System.EventHandler(this.pushButton_Click);
             // 
             // outputActiveBox
             // 
@@ -141,7 +138,6 @@
             this.outputActiveBox.ReadOnly = true;
             this.outputActiveBox.Size = new System.Drawing.Size(198, 20);
             this.outputActiveBox.TabIndex = 12;
-            this.outputActiveBox.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // label3
             // 
@@ -151,7 +147,6 @@
             this.label3.Size = new System.Drawing.Size(201, 13);
             this.label3.TabIndex = 13;
             this.label3.Text = "Активное значение тока на выход, мА";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // voltageAverageBox
             // 
@@ -203,7 +198,6 @@
             this.groupBox2.TabIndex = 18;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Активные значения";
-            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
             // 
             // ViewWindow
             // 
@@ -220,6 +214,7 @@
             this.Text = "magcontrol";
             this.Load += new System.EventHandler(this.ViewWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doubleFixedSizeQueueBindingSource)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -244,6 +239,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.BindingSource doubleFixedSizeQueueBindingSource;
     }
 }
 

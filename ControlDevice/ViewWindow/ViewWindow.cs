@@ -79,7 +79,19 @@ namespace ViewWindow
             this.chart1.Series.Add("YValues");
             this.chart1.Series["YValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
             chart1.ChartAreas[0].AxisX.IsMarginVisible = false;
-            SetStyle(ControlStyles.FixedWidth, true);
+
+            //SetStyle(ControlStyles.FixedWidth, true);
+
+            this.chart1.Series.Add("XValues");
+            this.chart1.Series["XValues"].XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+
+            chart1.ChartAreas[0].AxisX.Maximum = 100;
+            chart1.ChartAreas[0].AxisX.Minimum = 0;
+            chart1.ChartAreas[0].AxisY.Maximum = 5;
+
+            chart1.ChartAreas[0].AxisX.MajorGrid.Interval = 10;
+            chart1.ChartAreas[0].AxisX.LabelStyle.Interval = 10;
+            
 
             BindControls();
 
@@ -95,9 +107,6 @@ namespace ViewWindow
                     }
 
                     chart1.Series["YValues"].Points.Clear();
-                    chart1.ChartAreas[0].AxisX.Maximum = 100;
-                    chart1.ChartAreas[0].AxisY.Maximum = 5;
-
 
 
                     for (int _localPointCounter = 0;  _localPointCounter < _pointRefreshLimit - 1; ++_localPointCounter)

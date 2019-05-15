@@ -81,7 +81,8 @@ namespace ControlDevice.Calculations
         private double _outboundCurrentActive;
         private double _inboundVoltage;
         private double _inboundVoltageAverage;
-        private readonly Timer _cardPollTimer;        
+        private readonly Timer _cardPollTimer;
+        private readonly Timer _chartRendererTimer;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -90,8 +91,9 @@ namespace ControlDevice.Calculations
             OutboundCurrent = _outboundCurrent;
             OutboundCurrentActive = _outboundCurrentActive;
             _cardPollTimer = new System.Timers.Timer(100);
+            _chartRendererTimer = new Timer(1000);
 
-            InternalQueue = new DoubleFixedSizeQueue(100); ;
+            InternalQueue = new DoubleFixedSizeQueue(100);
 
             _cardPollTimer.Elapsed += (s, e) => {
                 
@@ -108,6 +110,8 @@ namespace ControlDevice.Calculations
         }
 
         public DoubleFixedSizeQueue InternalQueue { get; private set; }
+        public FixedSizeQueue<DateTime> TimerQueue { get; private set; }
+
 
 
         #region OnPropertyChanged

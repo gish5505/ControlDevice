@@ -80,8 +80,6 @@ namespace ViewWindow
             this.chart1.Series["YValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
             chart1.ChartAreas[0].AxisX.IsMarginVisible = false;
 
-            //SetStyle(ControlStyles.FixedWidth, true);
-
             this.chart1.Series.Add("XValues");
             this.chart1.Series["XValues"].XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
 

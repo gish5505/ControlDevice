@@ -79,9 +79,7 @@ namespace ViewWindow
             this.chart1.Series.Add("YValues");
             this.chart1.Series["YValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
             chart1.ChartAreas[0].AxisX.IsMarginVisible = false;
-
-            //chart1.ChartAreas[0].AxisX.Maximum = 10;
-            //chart1.ChartAreas[0].AxisX.Minimum = 1;
+            SetStyle(ControlStyles.FixedWidth, true);
 
             BindControls();
 
@@ -97,6 +95,9 @@ namespace ViewWindow
                     }
 
                     chart1.Series["YValues"].Points.Clear();
+                    chart1.ChartAreas[0].AxisX.Maximum = 100;
+                    chart1.ChartAreas[0].AxisY.Maximum = 5;
+
 
 
                     for (int _localPointCounter = 0;  _localPointCounter < _pointRefreshLimit - 1; ++_localPointCounter)

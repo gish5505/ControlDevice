@@ -71,6 +71,16 @@ namespace ControlDevice.Calculations
 
     }
 
+    public class DateTimeFixedSizeQueue : FixedSizeQueue<DateTime>
+    {
+        public DateTimeFixedSizeQueue(int limit)
+            : base(limit)
+        {
+
+        }
+
+    }
+
     public class CalculationViewModel : INotifyPropertyChanged
     {
 
@@ -95,6 +105,8 @@ namespace ControlDevice.Calculations
 
             InternalQueue = new DoubleFixedSizeQueue(100);
 
+            XAxisTimerQueue = new DateTimeFixedSizeQueue(10);
+
             _cardPollTimer.Elapsed += (s, e) => {
                 
                 InboundVoltage = _board.CardPoll();
@@ -110,7 +122,7 @@ namespace ControlDevice.Calculations
         }
 
         public DoubleFixedSizeQueue InternalQueue { get; private set; }
-        public FixedSizeQueue<DateTime> TimerQueue { get; private set; }
+        public FixedSizeQueue<DateTime> XAxisTimerQueue { get; private set; }
 
 
 

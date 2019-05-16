@@ -76,15 +76,15 @@ namespace ViewWindow
 
         private void ViewWindow_Load(object sender, EventArgs e)
         {
-            this.chart1.Series.Add("YValues");
-            this.chart1.Series["YValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            chart1.Series.Add("YValues");
+            chart1.Series["YValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
 
-            this.chart1.Series.Add("XValues");
-            this.chart1.Series["XValues"].XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            chart1
+            chart1.Series.Add("XValues");
+            chart1.Series["XValues"].XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            
             chart1.ChartAreas[0].AxisX.IsMarginVisible = false;
 
-            chart1.ChartAreas[0].AxisX.Maximum = 10;
+            chart1.ChartAreas[0].AxisX.Maximum = 100;
             chart1.ChartAreas[0].AxisX.Minimum = 0;
 
             chart1.ChartAreas[0].AxisY.Maximum = 5;
@@ -95,7 +95,7 @@ namespace ViewWindow
 
             BindControls();
 
-            int _pointRefreshLimit = 0;
+            int _pointRefreshLimitYAxis = 0;
 
             _threadSafeVM.PropertyChanged += (s, args) => {
                 if (args.PropertyName == "InternalQueue")
@@ -103,7 +103,7 @@ namespace ViewWindow
                     //var point = ((SynchronizedNotifyPropertyChanged<CalculationViewModel>)s).Source.Values.Queue.Last();
                     if (_vm.InternalQueue.Queue != null)
                     {
-                        _pointRefreshLimit = _vm.InternalQueue.Queue.Count();
+                        _pointRefreshLimitYAxis = _vm.InternalQueue.Queue.Count();
                     }
 
                     chart1.Series["YValues"].Points.Clear();
@@ -111,11 +111,13 @@ namespace ViewWindow
                     //chart1.ChartAreas[0].AxisX.Maximum += 1;
                     //chart1.ChartAreas[0].AxisX.Minimum += 1;
 
-                    for (int _localPointCounter = 0;  _localPointCounter < _pointRefreshLimit - 1; ++_localPointCounter)
+                    for (int _localPointCounter = 0;  _localPointCounter < _pointRefreshLimitYAxis - 1; ++_localPointCounter)
                     {
                         this.chart1.Series["YValues"].Points.AddY(_vm.InternalQueue.Queue.ElementAt(_localPointCounter));
                     }
                 }
+
+
             };
         }
 

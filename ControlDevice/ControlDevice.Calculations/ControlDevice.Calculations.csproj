@@ -41,7 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Calculations.cs" />
+    <Compile Include="CalculationViewModel.cs" />
+    <Compile Include="FixedSizeQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Range.cs" />
+    <Compile Include="RangeConfiguration.cs" />
+    <Compile Include="ValueTransform.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ControlDevice.Models\ControlDevice.Models.csproj">

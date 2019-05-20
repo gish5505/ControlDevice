@@ -3,6 +3,7 @@ using ControlDevice.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -21,15 +22,19 @@ namespace ViewWindow
 
         private bool _isStarted = false;
         private bool _useMock = true;
-        private CalculationViewModel _vm = new CalculationViewModel();
+        private CalculationViewModel _viewModel;
 
         private SynchronizedNotifyPropertyChanged<CalculationViewModel> _threadSafeVM;
 
         public ViewWindow()
         {
             InitializeComponent();
-            
-            _threadSafeVM = new SynchronizedNotifyPropertyChanged<CalculationViewModel>(_vm, this);
+                        
+            var intervals = (RangeConfiguration)ConfigurationManager.GetSection("RangeConfiguration");
+
+            _viewModel = new CalculationViewModel(intervals.Ranges);
+
+            _threadSafeVM = new SynchronizedNotifyPropertyChanged<CalculationViewModel>(_viewModel, this);
         }
 
 
@@ -40,7 +45,7 @@ namespace ViewWindow
                 _isStarted = !_isStarted;
                 btnStart.Text = (_isStarted) ? "Стоп" : "Старт";
                 
-                _vm.Start();
+                _viewModel.Start();
                 
             }
             else
@@ -48,7 +53,7 @@ namespace ViewWindow
                 _isStarted = !_isStarted;
                 btnStart.Text = (_isStarted) ? "Стоп" : "Старт";
 
-                _vm.Stop();
+                _viewModel.Stop();
                 
             }
         }        
@@ -66,7 +71,10 @@ namespace ViewWindow
             if (_isStarted /*& isParsable*/) 
             {
                 float pushValue = float.Parse(outputPendingBox.Text, System.Globalization.CultureInfo.InvariantCulture);
-                _vm.OutputBoardPush(pushValue);
+
+
+
+                _viewModel.OutputBoardPush(pushValue);
                 outputActiveBox.Text = outputPendingBox.Text;
             }
 
@@ -79,8 +87,7 @@ namespace ViewWindow
             chart1.Series.Add("YValues");
             chart1.Series["YValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
 
-            chart1.Series.Add("XValues");
-            chart1.Series["XValues"].XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            //chart1.ChartAreas[0].AxisX.LabelStyle.Format = "mm:ss";
             
             chart1.ChartAreas[0].AxisX.IsMarginVisible = false;
 
@@ -101,9 +108,9 @@ namespace ViewWindow
                 if (args.PropertyName == "InternalQueue")
                 {
                     //var point = ((SynchronizedNotifyPropertyChanged<CalculationViewModel>)s).Source.Values.Queue.Last();
-                    if (_vm.InternalQueue.Queue != null)
+                    if (_viewModel.InternalQueue.Queue != null)
                     {
-                        _pointRefreshLimitYAxis = _vm.InternalQueue.Queue.Count();
+                        _pointRefreshLimitYAxis = _viewModel.InternalQueue.Queue.Count();
                     }
 
                     chart1.Series["YValues"].Points.Clear();
@@ -113,7 +120,8 @@ namespace ViewWindow
 
                     for (int _localPointCounter = 0;  _localPointCounter < _pointRefreshLimitYAxis - 1; ++_localPointCounter)
                     {
-                        this.chart1.Series["YValues"].Points.AddY(_vm.InternalQueue.Queue.ElementAt(_localPointCounter));
+                        //chart1.Series["YValues"].Points.AddXY(_viewModel.XAxisTimerQueue.Queue.ElementAt(_localPointCounter), _viewModel.InternalQueue.Queue.ElementAt(_localPointCounter));
+                        chart1.Series["YValues"].Points.AddY(_viewModel.InternalQueue.Queue.ElementAt(_localPointCounter));
                     }
                 }
 
@@ -125,91 +133,5 @@ namespace ViewWindow
     }
 
 
-    public class SynchronizedNotifyPropertyChanged<T> : INotifyPropertyChanged, ICustomTypeDescriptor           //threadsafe ipropertychanged
-        where T : INotifyPropertyChanged
-    {
-        private readonly T _source;
-        private readonly ISynchronizeInvoke _syncObject;
-
-        public SynchronizedNotifyPropertyChanged(T source, ISynchronizeInvoke syncObject)
-        {
-            _source = source;
-            _syncObject = syncObject;
-
-            _source.PropertyChanged += (sender, args) => OnPropertyChanged(args.PropertyName);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged == null) return;
-
-            var handler = PropertyChanged;
-            _syncObject.BeginInvoke(handler, new object[] { this, new PropertyChangedEventArgs(propertyName) });
-        }
-
-        public T Source { get { return _source; } }
-
-        #region ICustomTypeDescriptor
-        public AttributeCollection GetAttributes()
-        {
-            return new AttributeCollection(null);
-        }
-
-        public string GetClassName()
-        {
-            return TypeDescriptor.GetClassName(typeof(T));
-        }
-
-        public string GetComponentName()
-        {
-            return TypeDescriptor.GetComponentName(typeof(T));
-        }
-
-        public TypeConverter GetConverter()
-        {
-            return TypeDescriptor.GetConverter(typeof(T));
-        }
-
-        public EventDescriptor GetDefaultEvent()
-        {
-            return TypeDescriptor.GetDefaultEvent(typeof(T));
-        }
-
-        public PropertyDescriptor GetDefaultProperty()
-        {
-            return TypeDescriptor.GetDefaultProperty(typeof(T));
-        }
-
-        public object GetEditor(Type editorBaseType)
-        {
-            return TypeDescriptor.GetEditor(typeof(T), editorBaseType);
-        }
-
-        public EventDescriptorCollection GetEvents()
-        {
-            return TypeDescriptor.GetEvents(typeof(T));
-        }
-
-        public EventDescriptorCollection GetEvents(Attribute[] attributes)
-        {
-            return TypeDescriptor.GetEvents(typeof(T), attributes);
-        }
-
-        public PropertyDescriptorCollection GetProperties()
-        {
-            return TypeDescriptor.GetProperties(typeof(T));
-        }
-
-        public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
-        {
-            return TypeDescriptor.GetProperties(typeof(T), attributes);
-        }
-
-        public object GetPropertyOwner(PropertyDescriptor pd)
-        {
-            return _source;
-        }
-        #endregion ICustomTypeDescriptor
-    }
+    
 }

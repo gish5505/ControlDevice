@@ -11,12 +11,15 @@ namespace ControlDevice.Calculations
     public class Range
     {
         [XmlAttribute]
-        public float LowValue { get; set; }
+        public float LowValueY { get; set; }
 
         [XmlAttribute]
-        public float HighValue { get; set; }
+        public float HighValueY { get; set; }
 
         [XmlAttribute]
-        public float RangeValue { get; set; }
+        public float LowValueX { get; set; }
+
+        [XmlAttribute]
+        public float HighValueX { get; set; }
     }
 }

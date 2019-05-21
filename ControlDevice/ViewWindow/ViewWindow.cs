@@ -75,12 +75,12 @@ namespace ViewWindow
 
 
                 _viewModel.OutputBoardPush(pushValue);
-                outputActiveBox.Text = outputPendingBox.Text;
+                //outputActiveBox.Text = outputPendingBox.Text;
+                outputActiveBox.Text = _viewModel.OutboundCurrentActive.ToString();
             }
 
         }
 
-        
 
         private void ViewWindow_Load(object sender, EventArgs e)
         {

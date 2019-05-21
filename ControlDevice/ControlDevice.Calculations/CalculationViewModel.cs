@@ -122,8 +122,8 @@ namespace ControlDevice.Calculations
             if (_outputBoard != null)
                 return _outputBoard;
 
-            //return new OutputBoard();
-            return new OutputBoardMock();
+            return new OutputBoard();
+            //return new OutputBoardMock();
         }
 
         public void OutputBoardPush(float inboundCurrentFromControl)
@@ -131,13 +131,22 @@ namespace ControlDevice.Calculations
             OutboundCurrentActive = inboundCurrentFromControl * ValueFromRange(inboundCurrentFromControl);
 
             _outputBoard.BoardPushValue((float)OutboundCurrentActive);
+            
         }
 
         public float ValueFromRange(float inboundCurrentFromControl)
         {
-            var result = _ranges.Where(r => inboundCurrentFromControl > r.LowValue && inboundCurrentFromControl < r.HighValue).Select(s => s.RangeValue).FirstOrDefault();
+            float _lowValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.LowValueY).FirstOrDefault();
 
-            return result;
+            float _highValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.HighValueY).FirstOrDefault();
+
+            float _lowValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.LowValueX).FirstOrDefault();
+
+            float _highValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.HighValueX).FirstOrDefault();
+
+            float _angleValueK = (_highValueY - _lowValueY) / (_highValueX - _lowValueX);
+
+            return _angleValueK;
         }
         
     }

@@ -122,8 +122,8 @@ namespace ControlDevice.Calculations
             if (_outputBoard != null)
                 return _outputBoard;
 
-            return new OutputBoard();
-            //return new OutputBoardMock();
+            //return new OutputBoard();
+            return new OutputBoardMock();
         }
 
         public void OutputBoardPush(float inboundCurrentFromControl)

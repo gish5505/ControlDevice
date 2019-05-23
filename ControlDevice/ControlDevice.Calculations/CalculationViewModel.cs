@@ -38,9 +38,21 @@ namespace ControlDevice.Calculations
 
                 InboundVoltage = _board.CardPoll();
 
-                InboundVoltageAverage = (InboundVoltage + InboundVoltageAverage) / 2;
+                InternalQueue.Enqueue(InboundVoltage);
 
-                InternalQueue.Enqueue(InboundVoltageAverage);
+                int i = InternalQueue.Queue.Count - 10;
+
+                if (i<0)
+                {
+                    i = 0;
+                }
+
+                for (; i < InternalQueue.Queue.Count; i++)
+                {
+                    InboundVoltageAverage = InternalQueue.Queue.ElementAt(i)+InboundVoltageAverage;
+                }
+
+                InboundVoltageAverage = InboundVoltageAverage / 10;
 
                 OnPropertyChanged("InternalQueue");
 
@@ -110,9 +122,9 @@ namespace ControlDevice.Calculations
 
             IListenerBoard result;
 
-            result = new ListenerBoardMock();
+            //result = new ListenerBoardMock();
 
-            //result = new ListenerBoard(0);
+            result = new ListenerBoard(0);
 
             return result;
         }
@@ -122,13 +134,13 @@ namespace ControlDevice.Calculations
             if (_outputBoard != null)
                 return _outputBoard;
 
-            //return new OutputBoard();
-            return new OutputBoardMock();
+            return new OutputBoard();
+            //return new OutputBoardMock();
         }
 
         public void OutputBoardPush(float inboundCurrentFromControl)
         {
-            OutboundCurrentActive = inboundCurrentFromControl * ValueFromRange(inboundCurrentFromControl);
+            OutboundCurrentActive = inboundCurrentFromControl; //* ValueFromRange(inboundCurrentFromControl);
 
             _outputBoard.BoardPushValue((float)OutboundCurrentActive);
             

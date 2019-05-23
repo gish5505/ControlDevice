@@ -46,6 +46,7 @@ namespace ViewWindow
                 btnStart.Text = (_isStarted) ? "Стоп" : "Старт";
                 
                 _viewModel.Start();
+                _viewModel.OutputBoardPush(0);
                 
             }
             else
@@ -53,6 +54,7 @@ namespace ViewWindow
                 _isStarted = !_isStarted;
                 btnStart.Text = (_isStarted) ? "Стоп" : "Старт";
 
+                _viewModel.OutputBoardPush(0);
                 _viewModel.Stop();
                 
             }
@@ -127,8 +129,16 @@ namespace ViewWindow
 
 
             };
+
+            FormClosing += ViewWindow_FormClosing;
         }
 
+        private void ViewWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _viewModel.OutputBoardPush(0);
+        }
+
+      
 
     }
 

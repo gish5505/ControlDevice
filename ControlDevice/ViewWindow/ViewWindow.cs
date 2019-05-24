@@ -86,6 +86,7 @@ namespace ViewWindow
 
         private void ViewWindow_Load(object sender, EventArgs e)
         {
+
             chart1.Series.Add("YValues");
             chart1.Series["YValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
 
@@ -96,7 +97,7 @@ namespace ViewWindow
             chart1.ChartAreas[0].AxisX.Maximum = 100;
             chart1.ChartAreas[0].AxisX.Minimum = 0;
 
-            chart1.ChartAreas[0].AxisY.Maximum = 5;
+            chart1.ChartAreas[0].AxisY.Maximum = 10;
 
             chart1.ChartAreas[0].AxisX.MajorGrid.Interval = 5;
             chart1.ChartAreas[0].AxisX.LabelStyle.Interval = 5;
@@ -129,7 +130,6 @@ namespace ViewWindow
 
 
             };
-
             FormClosing += ViewWindow_FormClosing;
         }
 

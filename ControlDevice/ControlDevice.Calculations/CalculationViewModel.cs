@@ -35,6 +35,7 @@ namespace ControlDevice.Calculations
 
             XAxisTimerQueue = new DateTimeFixedSizeQueue(100);
 
+
             _cardPollTimer.Elapsed += (s, e) =>
             {
 
@@ -136,6 +137,8 @@ namespace ControlDevice.Calculations
             }
 
             InboundVoltageAverage = InboundVoltageAverage / 10;
+
+            Math.Round(InboundVoltageAverage,4,MidpointRounding.ToEven);
 
         }
 

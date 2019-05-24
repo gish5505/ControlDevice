@@ -94,8 +94,8 @@ namespace ControlDevice.Models
             PISO813.OutputByte((ushort)addrBase, 1);  //channel reset?
 
 
-            ushort Channel = 3; //hardware requirement
-            PISO813.SetChGain(addrBase, Channel, 1); //unipolar jp1 5v jp2 10v
+            ushort Channel = 0; //hardware requirement
+            PISO813.SetChGain(addrBase, Channel, 0); //unipolar jp1 5v jp2 10v
 
 
             return config;

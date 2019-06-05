@@ -130,7 +130,15 @@ namespace ViewWindow
 
 
             };
+
             FormClosing += ViewWindow_FormClosing;
+
+            acpCurrent.CheckedChanged += RadioButtons_CheckedChanged;
+            generatorPower.CheckedChanged += RadioButtons_CheckedChanged;
+            generatorCurrent.CheckedChanged += RadioButtons_CheckedChanged;
+            capVoltage.CheckedChanged += RadioButtons_CheckedChanged;
+            generatorPowerShown.CheckedChanged += RadioButtons_CheckedChanged;
+            generatorCurrentShown.CheckedChanged += RadioButtons_CheckedChanged;
         }
 
         private void ViewWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -138,7 +146,40 @@ namespace ViewWindow
             _viewModel.OutputBoardPush(0);
         }
 
-      
+        private void RadioButtons_CheckedChanged (object sender, EventArgs e)
+        {
+            RadioButton radioButton = sender as RadioButton;
+
+            if (radioButton.Checked == true)
+            {
+                switch (radioButton.Name)
+                {
+                    case "acpCurrent":
+                        outputPendingBox.Text = "1";
+                        break;
+
+                    case "generatorPower":
+                        outputPendingBox.Text = "2";
+                        break;
+
+                    case "generatorCurrent":
+                        outputPendingBox.Text = "3";
+                        break;
+
+                    case "capVoltage":
+
+                        break;
+
+                    case "generatorPowerShown":
+
+                        break;
+                    case "generatorCurrentShown":
+
+                        break;
+
+                }
+            }
+        }      
 
     }
 

@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.Title title6 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Title title7 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.Title title8 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.btnStart = new System.Windows.Forms.Button();
             this.voltageBox = new System.Windows.Forms.TextBox();
             this.outputPendingBox = new System.Windows.Forms.TextBox();
@@ -51,18 +51,18 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.acpCurrent = new System.Windows.Forms.RadioButton();
+            this.generatorPower = new System.Windows.Forms.RadioButton();
+            this.generatorCurrent = new System.Windows.Forms.RadioButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.radioButton5 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton6 = new System.Windows.Forms.RadioButton();
+            this.generatorCurrentShown = new System.Windows.Forms.RadioButton();
+            this.generatorPowerShown = new System.Windows.Forms.RadioButton();
+            this.capVoltage = new System.Windows.Forms.RadioButton();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.doubleFixedSizeQueueBindingSource)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -114,8 +114,8 @@
             // 
             this.chart1.BackColor = System.Drawing.Color.Transparent;
             this.chart1.BackSecondaryColor = System.Drawing.Color.Transparent;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
+            chartArea3.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea3);
             this.chart1.DataSource = this.doubleFixedSizeQueueBindingSource;
             this.chart1.Location = new System.Drawing.Point(12, 28);
             this.chart1.Name = "chart1";
@@ -123,22 +123,22 @@
             this.chart1.Size = new System.Drawing.Size(685, 299);
             this.chart1.TabIndex = 10;
             this.chart1.Text = "chart1";
-            title1.Alignment = System.Drawing.ContentAlignment.TopCenter;
-            title1.DockedToChartArea = "ChartArea1";
-            title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            title1.DockingOffset = -2;
-            title1.IsDockedInsideChartArea = false;
-            title1.Name = "Title1";
-            title1.Text = "Время, сек";
-            title2.DockedToChartArea = "ChartArea1";
-            title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            title2.DockingOffset = 2;
-            title2.IsDockedInsideChartArea = false;
-            title2.Name = "Title2";
-            title2.Text = "Вольтаж, В";
-            title2.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Rotated270;
-            this.chart1.Titles.Add(title1);
-            this.chart1.Titles.Add(title2);
+            title5.Alignment = System.Drawing.ContentAlignment.TopCenter;
+            title5.DockedToChartArea = "ChartArea1";
+            title5.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            title5.DockingOffset = -2;
+            title5.IsDockedInsideChartArea = false;
+            title5.Name = "Title1";
+            title5.Text = "Время, сек";
+            title6.DockedToChartArea = "ChartArea1";
+            title6.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
+            title6.DockingOffset = 2;
+            title6.IsDockedInsideChartArea = false;
+            title6.Name = "Title2";
+            title6.Text = "Вольтаж, В";
+            title6.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Rotated270;
+            this.chart1.Titles.Add(title5);
+            this.chart1.Titles.Add(title6);
             // 
             // doubleFixedSizeQueueBindingSource
             // 
@@ -229,25 +229,25 @@
             // chart2
             // 
             this.chart2.BackColor = System.Drawing.Color.Transparent;
-            chartArea2.Name = "ChartArea1";
-            this.chart2.ChartAreas.Add(chartArea2);
+            chartArea4.Name = "ChartArea1";
+            this.chart2.ChartAreas.Add(chartArea4);
             this.chart2.Location = new System.Drawing.Point(12, 333);
             this.chart2.Name = "chart2";
             this.chart2.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
             this.chart2.Size = new System.Drawing.Size(685, 314);
             this.chart2.TabIndex = 19;
             this.chart2.Text = "chart2";
-            title3.Alignment = System.Drawing.ContentAlignment.BottomCenter;
-            title3.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            title3.Name = "Title1";
-            title3.Text = "Время, сек";
-            title4.Alignment = System.Drawing.ContentAlignment.BottomCenter;
-            title4.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            title4.DockingOffset = 2;
-            title4.Name = "Title2";
-            title4.Text = "Напряжение ЦАП, В";
-            this.chart2.Titles.Add(title3);
-            this.chart2.Titles.Add(title4);
+            title7.Alignment = System.Drawing.ContentAlignment.BottomCenter;
+            title7.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            title7.Name = "Title1";
+            title7.Text = "Время, сек";
+            title8.Alignment = System.Drawing.ContentAlignment.BottomCenter;
+            title8.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
+            title8.DockingOffset = 2;
+            title8.Name = "Title2";
+            title8.Text = "Напряжение ЦАП, В";
+            this.chart2.Titles.Add(title7);
+            this.chart2.Titles.Add(title8);
             // 
             // checkBox1
             // 
@@ -259,44 +259,41 @@
             this.checkBox1.Text = "Режим коррекции";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // acpCurrent
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(6, 21);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(91, 17);
-            this.radioButton1.TabIndex = 16;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Ток АЦП, мА";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.acpCurrent.AutoSize = true;
+            this.acpCurrent.Location = new System.Drawing.Point(6, 21);
+            this.acpCurrent.Name = "acpCurrent";
+            this.acpCurrent.Size = new System.Drawing.Size(91, 17);
+            this.acpCurrent.TabIndex = 16;
+            this.acpCurrent.Text = "Ток АЦП, мА";
+            this.acpCurrent.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // generatorPower
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(6, 44);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(157, 17);
-            this.radioButton2.TabIndex = 21;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Мощность генератора, Вт";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.generatorPower.AutoSize = true;
+            this.generatorPower.Location = new System.Drawing.Point(6, 44);
+            this.generatorPower.Name = "generatorPower";
+            this.generatorPower.Size = new System.Drawing.Size(157, 17);
+            this.generatorPower.TabIndex = 21;
+            this.generatorPower.Text = "Мощность генератора, Вт";
+            this.generatorPower.UseVisualStyleBackColor = true;
             // 
-            // radioButton3
+            // generatorCurrent
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(6, 67);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(118, 17);
-            this.radioButton3.TabIndex = 22;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Ток генератора, А";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.generatorCurrent.AutoSize = true;
+            this.generatorCurrent.Location = new System.Drawing.Point(6, 67);
+            this.generatorCurrent.Name = "generatorCurrent";
+            this.generatorCurrent.Size = new System.Drawing.Size(118, 17);
+            this.generatorCurrent.TabIndex = 22;
+            this.generatorCurrent.Text = "Ток генератора, А";
+            this.generatorCurrent.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.radioButton3);
-            this.groupBox3.Controls.Add(this.radioButton1);
-            this.groupBox3.Controls.Add(this.radioButton2);
+            this.groupBox3.Controls.Add(this.generatorCurrent);
+            this.groupBox3.Controls.Add(this.acpCurrent);
+            this.groupBox3.Controls.Add(this.generatorPower);
             this.groupBox3.Location = new System.Drawing.Point(706, 102);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(216, 90);
@@ -306,9 +303,9 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.radioButton6);
-            this.groupBox4.Controls.Add(this.radioButton5);
-            this.groupBox4.Controls.Add(this.radioButton4);
+            this.groupBox4.Controls.Add(this.generatorCurrentShown);
+            this.groupBox4.Controls.Add(this.generatorPowerShown);
+            this.groupBox4.Controls.Add(this.capVoltage);
             this.groupBox4.Location = new System.Drawing.Point(706, 198);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(216, 90);
@@ -316,38 +313,38 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Отображаемые параметры";
             // 
-            // radioButton5
+            // generatorCurrentShown
             // 
-            this.radioButton5.AutoSize = true;
-            this.radioButton5.Location = new System.Drawing.Point(6, 44);
-            this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(157, 17);
-            this.radioButton5.TabIndex = 1;
-            this.radioButton5.TabStop = true;
-            this.radioButton5.Text = "Мощность генератора, Вт";
-            this.radioButton5.UseVisualStyleBackColor = true;
+            this.generatorCurrentShown.AutoSize = true;
+            this.generatorCurrentShown.Location = new System.Drawing.Point(6, 67);
+            this.generatorCurrentShown.Name = "generatorCurrentShown";
+            this.generatorCurrentShown.Size = new System.Drawing.Size(118, 17);
+            this.generatorCurrentShown.TabIndex = 25;
+            this.generatorCurrentShown.TabStop = true;
+            this.generatorCurrentShown.Text = "Ток генератора, А";
+            this.generatorCurrentShown.UseVisualStyleBackColor = true;
             // 
-            // radioButton4
+            // generatorPowerShown
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(6, 21);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(128, 17);
-            this.radioButton4.TabIndex = 0;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Напряжение ЦАП, В";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            this.generatorPowerShown.AutoSize = true;
+            this.generatorPowerShown.Location = new System.Drawing.Point(6, 44);
+            this.generatorPowerShown.Name = "generatorPowerShown";
+            this.generatorPowerShown.Size = new System.Drawing.Size(157, 17);
+            this.generatorPowerShown.TabIndex = 1;
+            this.generatorPowerShown.TabStop = true;
+            this.generatorPowerShown.Text = "Мощность генератора, Вт";
+            this.generatorPowerShown.UseVisualStyleBackColor = true;
             // 
-            // radioButton6
+            // capVoltage
             // 
-            this.radioButton6.AutoSize = true;
-            this.radioButton6.Location = new System.Drawing.Point(6, 67);
-            this.radioButton6.Name = "radioButton6";
-            this.radioButton6.Size = new System.Drawing.Size(118, 17);
-            this.radioButton6.TabIndex = 25;
-            this.radioButton6.TabStop = true;
-            this.radioButton6.Text = "Ток генератора, А";
-            this.radioButton6.UseVisualStyleBackColor = true;
+            this.capVoltage.AutoSize = true;
+            this.capVoltage.Location = new System.Drawing.Point(6, 21);
+            this.capVoltage.Name = "capVoltage";
+            this.capVoltage.Size = new System.Drawing.Size(128, 17);
+            this.capVoltage.TabIndex = 0;
+            this.capVoltage.TabStop = true;
+            this.capVoltage.Text = "Напряжение ЦАП, В";
+            this.capVoltage.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -362,15 +359,14 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Прочие функции";
             // 
-            // comboBox1
+            // button2
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Меандр"});
-            this.comboBox1.Location = new System.Drawing.Point(6, 61);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 26;
+            this.button2.Location = new System.Drawing.Point(139, 61);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 26;
+            this.button2.Text = "Запуск";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // textBox1
             // 
@@ -384,14 +380,15 @@
             this.textBox1.TabIndex = 27;
             this.textBox1.Text = "Автоматическая генерация импульса";
             // 
-            // button2
+            // comboBox1
             // 
-            this.button2.Location = new System.Drawing.Point(139, 61);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 26;
-            this.button2.Text = "Запуск";
-            this.button2.UseVisualStyleBackColor = true;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Меандр"});
+            this.comboBox1.Location = new System.Drawing.Point(6, 61);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 26;
             // 
             // ViewWindow
             // 
@@ -447,14 +444,14 @@
         private System.Windows.Forms.BindingSource doubleFixedSizeQueueBindingSource;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton acpCurrent;
+        private System.Windows.Forms.RadioButton generatorPower;
+        private System.Windows.Forms.RadioButton generatorCurrent;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.RadioButton radioButton5;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButton6;
+        private System.Windows.Forms.RadioButton generatorPowerShown;
+        private System.Windows.Forms.RadioButton capVoltage;
+        private System.Windows.Forms.RadioButton generatorCurrentShown;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox textBox1;

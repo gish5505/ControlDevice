@@ -126,7 +126,7 @@ namespace ControlDevice.Models
     {
         public void BoardPushValue(float targetCurrent)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Dispose()

@@ -33,23 +33,34 @@ namespace ControlDevice.Calculations
 
             InternalQueue = new DoubleFixedSizeQueue(100);
 
+            InternalOutputQueue = new DoubleFixedSizeQueue(100);
+
+            InternalOutputAnodeQueue = new DoubleFixedSizeQueue(100);
+
+            InternalOutputPowerQueue = new DoubleFixedSizeQueue(100);
+
             XAxisTimerQueue = new DateTimeFixedSizeQueue(100);
 
 
             _cardPollTimer.Elapsed += (s, e) =>
             {
 
-                InboundVoltage = _board.CardPoll();
-
+                InboundVoltage = Math.Round( _board.CardPoll(),4,MidpointRounding.ToEven);
                 InternalQueue.Enqueue(InboundVoltage);
-
                 VoltageAveraging();
 
                 OnPropertyChanged("InternalQueue");
-
                 XAxisTimerQueue.Enqueue(DateTime.Now);
-
                 OnPropertyChanged("XAxisTimerQueue");
+
+                InternalOutputQueue.Enqueue(OutboundCurrentActive);
+                OnPropertyChanged("OutboundCurrentActive");
+
+                InternalOutputAnodeQueue.Enqueue(OutboundCurrentActive * ValueFromRange((float)OutboundCurrentActive));
+                OnPropertyChanged("OutboundAnodeCurrentActive");
+
+                InternalOutputPowerQueue.Enqueue(3 * OutboundCurrentActive * ValueFromRange((float)OutboundCurrentActive));
+                OnPropertyChanged("OutboundPowerActive");
             };
 
         }
@@ -61,7 +72,9 @@ namespace ControlDevice.Calculations
         }
 
         public DoubleFixedSizeQueue InternalQueue { get; private set; }
-
+        public DoubleFixedSizeQueue InternalOutputQueue { get; private set; }
+        public DoubleFixedSizeQueue InternalOutputAnodeQueue { get; private set; }
+        public DoubleFixedSizeQueue InternalOutputPowerQueue { get; private set; }
         public FixedSizeQueue<DateTime> XAxisTimerQueue { get; private set; }
 
         public void Start()
@@ -103,7 +116,12 @@ namespace ControlDevice.Calculations
         {
             OutboundCurrentActive = inboundCurrentFromControl; //* ValueFromRange(inboundCurrentFromControl);
 
-            _outputBoard.BoardPushValue((float)OutboundCurrentActive);
+            _outboundCurrentActive = OutboundCurrentActive;
+
+            if (_outputBoard != null) 
+            {
+                _outputBoard.BoardPushValue((float)OutboundCurrentActive);
+            }
             
         }
 
@@ -133,12 +151,12 @@ namespace ControlDevice.Calculations
 
             for (; i<InternalQueue.Queue.Count; i++)
             {
-                InboundVoltageAverage = InternalQueue.Queue.ElementAt(i)+InboundVoltageAverage;
+                InboundVoltageAverage = InternalQueue.Queue.ElementAt(i) + InboundVoltageAverage;
             }
 
             InboundVoltageAverage = InboundVoltageAverage / 10;
 
-            Math.Round(InboundVoltageAverage,4,MidpointRounding.ToEven);
+            InboundVoltageAverage = Math.Round(InboundVoltageAverage, 4, MidpointRounding.ToEven);
 
         }
 

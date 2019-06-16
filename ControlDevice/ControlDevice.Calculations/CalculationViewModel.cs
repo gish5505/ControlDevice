@@ -44,23 +44,32 @@ namespace ControlDevice.Calculations
 
             _cardPollTimer.Elapsed += (s, e) =>
             {
+                try
+                {
 
-                InboundVoltage = Math.Round( _board.CardPoll(),4,MidpointRounding.ToEven);
-                InternalQueue.Enqueue(InboundVoltage);
-                VoltageAveraging();
+                    _cardPollTimer.Stop();
 
-                OnPropertyChanged("InternalQueue");
-                XAxisTimerQueue.Enqueue(DateTime.Now);
-                OnPropertyChanged("XAxisTimerQueue");
+                    InboundVoltage = Math.Round(_board.CardPoll(), 4, MidpointRounding.ToEven);
+                    InternalQueue.Enqueue(InboundVoltage);
+                    VoltageAveraging();
+                    OnPropertyChanged("InternalQueue");
 
-                InternalOutputQueue.Enqueue(OutboundCurrentActive);
-                OnPropertyChanged("OutboundCurrentActive");
+                    XAxisTimerQueue.Enqueue(DateTime.Now);
+                    OnPropertyChanged("XAxisTimerQueue");
 
-                InternalOutputAnodeQueue.Enqueue(OutboundCurrentActive * ValueFromRange((float)OutboundCurrentActive));
-                OnPropertyChanged("OutboundAnodeCurrentActive");
+                    InternalOutputQueue.Enqueue(OutboundCurrentActive);
+                    OnPropertyChanged("OutboundCurrentActive");
 
-                InternalOutputPowerQueue.Enqueue(3 * OutboundCurrentActive * ValueFromRange((float)OutboundCurrentActive));
-                OnPropertyChanged("OutboundPowerActive");
+                    InternalOutputAnodeQueue.Enqueue(InboundVoltage* ValueFromRange((float)InboundVoltage));
+                    OnPropertyChanged("OutboundAnodeCurrentActive");
+
+                    InternalOutputPowerQueue.Enqueue(3 * OutboundCurrentActive * ValueFromRange((float)OutboundCurrentActive));
+                    OnPropertyChanged("OutboundPowerActive");
+                }
+                finally
+                {
+                    _cardPollTimer.Start();
+                }
             };
 
         }

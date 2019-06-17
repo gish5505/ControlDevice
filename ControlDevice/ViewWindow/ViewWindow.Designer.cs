@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Title title9 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.Title title10 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Title title11 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.Title title12 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.btnStart = new System.Windows.Forms.Button();
             this.voltageBox = new System.Windows.Forms.TextBox();
             this.outputPendingBox = new System.Windows.Forms.TextBox();
@@ -50,7 +50,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.outputChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.correctionCheckBox = new System.Windows.Forms.CheckBox();
             this.adcCurrentOutput = new System.Windows.Forms.RadioButton();
             this.generatorPowerOutput = new System.Windows.Forms.RadioButton();
             this.generatorCurrentOutput = new System.Windows.Forms.RadioButton();
@@ -114,8 +114,8 @@
             // 
             this.inputChart.BackColor = System.Drawing.Color.Transparent;
             this.inputChart.BackSecondaryColor = System.Drawing.Color.Transparent;
-            chartArea1.Name = "ChartArea1";
-            this.inputChart.ChartAreas.Add(chartArea1);
+            chartArea5.Name = "ChartArea1";
+            this.inputChart.ChartAreas.Add(chartArea5);
             this.inputChart.DataSource = this.doubleFixedSizeQueueBindingSource;
             this.inputChart.Location = new System.Drawing.Point(12, 28);
             this.inputChart.Name = "inputChart";
@@ -123,22 +123,22 @@
             this.inputChart.Size = new System.Drawing.Size(685, 299);
             this.inputChart.TabIndex = 10;
             this.inputChart.Text = "inputChart";
-            title1.Alignment = System.Drawing.ContentAlignment.TopCenter;
-            title1.DockedToChartArea = "ChartArea1";
-            title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            title1.DockingOffset = -2;
-            title1.IsDockedInsideChartArea = false;
-            title1.Name = "Title1";
-            title1.Text = "Время, сек";
-            title2.DockedToChartArea = "ChartArea1";
-            title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            title2.DockingOffset = 2;
-            title2.IsDockedInsideChartArea = false;
-            title2.Name = "Title2";
-            title2.Text = "Вольтаж, В";
-            title2.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Rotated270;
-            this.inputChart.Titles.Add(title1);
-            this.inputChart.Titles.Add(title2);
+            title9.Alignment = System.Drawing.ContentAlignment.TopCenter;
+            title9.DockedToChartArea = "ChartArea1";
+            title9.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            title9.DockingOffset = -2;
+            title9.IsDockedInsideChartArea = false;
+            title9.Name = "Title1";
+            title9.Text = "Время, сек";
+            title10.DockedToChartArea = "ChartArea1";
+            title10.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
+            title10.DockingOffset = 2;
+            title10.IsDockedInsideChartArea = false;
+            title10.Name = "Title2";
+            title10.Text = "Вольтаж, В";
+            title10.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Rotated270;
+            this.inputChart.Titles.Add(title9);
+            this.inputChart.Titles.Add(title10);
             // 
             // doubleFixedSizeQueueBindingSource
             // 
@@ -229,35 +229,36 @@
             // outputChart
             // 
             this.outputChart.BackColor = System.Drawing.Color.Transparent;
-            chartArea2.Name = "ChartArea1";
-            this.outputChart.ChartAreas.Add(chartArea2);
+            chartArea6.Name = "ChartArea1";
+            this.outputChart.ChartAreas.Add(chartArea6);
             this.outputChart.Location = new System.Drawing.Point(12, 333);
             this.outputChart.Name = "outputChart";
             this.outputChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
             this.outputChart.Size = new System.Drawing.Size(685, 314);
             this.outputChart.TabIndex = 19;
             this.outputChart.Text = "chart2";
-            title3.Alignment = System.Drawing.ContentAlignment.BottomCenter;
-            title3.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            title3.Name = "Title1";
-            title3.Text = "Время, сек";
-            title4.Alignment = System.Drawing.ContentAlignment.BottomCenter;
-            title4.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            title4.DockingOffset = 2;
-            title4.Name = "Title2";
-            title4.Text = "Напряжение ЦАП, В";
-            this.outputChart.Titles.Add(title3);
-            this.outputChart.Titles.Add(title4);
+            title11.Alignment = System.Drawing.ContentAlignment.BottomCenter;
+            title11.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            title11.Name = "Title1";
+            title11.Text = "Время, сек";
+            title12.Alignment = System.Drawing.ContentAlignment.BottomCenter;
+            title12.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
+            title12.DockingOffset = 2;
+            title12.Name = "Title2";
+            title12.Text = "Напряжение ЦАП, В";
+            this.outputChart.Titles.Add(title11);
+            this.outputChart.Titles.Add(title12);
             // 
-            // checkBox1
+            // correctionCheckBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(9, 19);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(118, 17);
-            this.checkBox1.TabIndex = 20;
-            this.checkBox1.Text = "Режим коррекции";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.correctionCheckBox.AutoSize = true;
+            this.correctionCheckBox.Location = new System.Drawing.Point(9, 19);
+            this.correctionCheckBox.Name = "correctionCheckBox";
+            this.correctionCheckBox.Size = new System.Drawing.Size(118, 17);
+            this.correctionCheckBox.TabIndex = 20;
+            this.correctionCheckBox.Text = "Режим коррекции";
+            this.correctionCheckBox.UseVisualStyleBackColor = true;
+            this.correctionCheckBox.CheckedChanged += new System.EventHandler(this.correctionCheckBox_checked);
             // 
             // adcCurrentOutput
             // 
@@ -351,7 +352,7 @@
             this.groupBox5.Controls.Add(this.button2);
             this.groupBox5.Controls.Add(this.textBox1);
             this.groupBox5.Controls.Add(this.comboBox1);
-            this.groupBox5.Controls.Add(this.checkBox1);
+            this.groupBox5.Controls.Add(this.correctionCheckBox);
             this.groupBox5.Location = new System.Drawing.Point(706, 468);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(220, 98);
@@ -443,7 +444,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.BindingSource doubleFixedSizeQueueBindingSource;
         private System.Windows.Forms.DataVisualization.Charting.Chart outputChart;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox correctionCheckBox;
         private System.Windows.Forms.RadioButton adcCurrentOutput;
         private System.Windows.Forms.RadioButton generatorPowerOutput;
         private System.Windows.Forms.RadioButton generatorCurrentOutput;

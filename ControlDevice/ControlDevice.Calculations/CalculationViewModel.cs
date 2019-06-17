@@ -63,7 +63,7 @@ namespace ControlDevice.Calculations
                     InternalOutputAnodeQueue.Enqueue(InboundVoltage* ValueFromRange((float)InboundVoltage));
                     OnPropertyChanged("OutboundAnodeCurrentActive");
 
-                    InternalOutputPowerQueue.Enqueue(3 * OutboundCurrentActive * ValueFromRange((float)OutboundCurrentActive));
+                    InternalOutputPowerQueue.Enqueue(3 * InboundVoltage * ValueFromRange((float)InboundVoltage));
                     OnPropertyChanged("OutboundPowerActive");
                 }
                 finally

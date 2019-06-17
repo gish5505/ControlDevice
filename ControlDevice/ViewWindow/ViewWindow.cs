@@ -142,16 +142,21 @@ namespace ViewWindow
                     case "adcCurrentOutput":
                         inputChart.Series["YInternalQueueValues"].Enabled = true;
                         inputChart.Series["YAnodeCurrentValues"].Enabled = false;
+                        inputChart.Series["YPowerValues"].Enabled = false;
                         outputPendingBox.Text = "1";
                         break;
 
                     case "generatorPowerOutput":
                         inputChart.Series["YInternalQueueValues"].Enabled = false;
                         inputChart.Series["YAnodeCurrentValues"].Enabled = true;
+                        inputChart.Series["YPowerValues"].Enabled = false;
                         outputPendingBox.Text = "2";
                         break;
 
                     case "generatorCurrentOutput":
+                        inputChart.Series["YInternalQueueValues"].Enabled = false;
+                        inputChart.Series["YAnodeCurrentValues"].Enabled = false;
+                        inputChart.Series["YPowerValues"].Enabled = true;
                         outputPendingBox.Text = "3";
                         break;
 
@@ -264,6 +269,7 @@ namespace ViewWindow
 
             inputChart.Series["YInternalQueueValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
             inputChart.Series["YAnodeCurrentValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            inputChart.Series["YPowerValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
 
             //chart1.ChartAreas[0].AxisX.LabelStyle.Format = "mm:ss";
 
@@ -272,13 +278,19 @@ namespace ViewWindow
             inputChart.ChartAreas[0].AxisX.Maximum = 100;
             inputChart.ChartAreas[0].AxisX.Minimum = 0;
 
-            inputChart.ChartAreas[0].AxisY.Maximum = 10;
+            inputChart.ChartAreas[0].AxisY.Maximum = 15;
 
             inputChart.ChartAreas[0].AxisX.MajorGrid.Interval = 5;
             inputChart.ChartAreas[0].AxisX.LabelStyle.Interval = 5;
 
         }
 
+        private void correctionCheckBox_checked(object sender,EventArgs e)
+        {
+
+
+
+        }
     }
 
 

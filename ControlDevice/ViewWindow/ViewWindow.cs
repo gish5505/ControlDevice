@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 //set this project as startup to enable window mode
 
@@ -25,6 +26,17 @@ namespace ViewWindow
         private CalculationViewModel _viewModel;
 
         private SynchronizedNotifyPropertyChanged<CalculationViewModel> _threadSafeVM;
+
+        Title adcCurrentTitle = new Title       //custom title, had to lower InitializeComponent() access level to avoid repeating this pattern, but still usable
+        {
+            DockedToChartArea = "ChartArea1",
+            Docking = Docking.Left,
+            DockingOffset = 2,
+            IsDockedInsideChartArea = false,
+            Name = "adcCurrentOutput",
+            Text = "Вольтаж, В",
+            TextOrientation = TextOrientation.Rotated270
+        };
 
         public ViewWindow()
         {
@@ -74,14 +86,12 @@ namespace ViewWindow
             if (_isStarted & isParsable)
             {
                 float pushValue = float.Parse(outputPendingBox.Text, System.Globalization.CultureInfo.InvariantCulture);
-
-
-
                 _viewModel.OutputBoardPush(pushValue);
                 outputActiveBox.Text = _viewModel.OutboundCurrentActive.ToString();
             }
 
         }
+
 
 
         private void ViewWindow_Load(object sender, EventArgs e)
@@ -92,6 +102,7 @@ namespace ViewWindow
 
             BindControls();
 
+            inputChart.Titles.Add(adcCurrentTitle);
             drawChart();
             FormClosing += ViewWindow_FormClosing;
 
@@ -120,18 +131,27 @@ namespace ViewWindow
                         inputChart.Series["YInternalQueueValues"].Enabled = true;
                         inputChart.Series["YAnodeCurrentValues"].Enabled = false;
                         inputChart.Series["YPowerValues"].Enabled = false;
+                        adcCurrentTitle.Text = "Вольтаж, В";
+                        inputChart.ChartAreas[0].AxisY.Maximum = 10;
+                        groupBox1.Text = "Выставленное значение тока, мА";
                         break;
 
                     case "generatorPowerOutput":
                         inputChart.Series["YInternalQueueValues"].Enabled = false;
                         inputChart.Series["YAnodeCurrentValues"].Enabled = false;
                         inputChart.Series["YPowerValues"].Enabled = true;
+                        adcCurrentTitle.Text = "Мощность, кВт";
+                        inputChart.ChartAreas[0].AxisY.Maximum = 20;
+                        groupBox1.Text = "Выставленное значение мощности, кВт";
                         break;
 
                     case "generatorCurrentOutput":
                         inputChart.Series["YInternalQueueValues"].Enabled = false;
                         inputChart.Series["YAnodeCurrentValues"].Enabled = true;
                         inputChart.Series["YPowerValues"].Enabled = false;
+                        adcCurrentTitle.Text = "Ток анода, А";
+                        groupBox1.Text = "Выставленное значение анодного тока, кВт";
+                        inputChart.ChartAreas[0].AxisY.Maximum = 10;
                         break;
 
                     case "dacVoltage":
@@ -248,6 +268,19 @@ namespace ViewWindow
 
         public void InputChartSetup()
         {
+            string[] _axisLabels = { "10", "9", "8", "7", "6", "5", "4", "3", "2", "1","0" };
+
+            int startOffset = -2;
+            int endOffset = 2;
+            foreach (string _axisNumber in _axisLabels)
+            {
+                CustomLabel _axisLabel = new CustomLabel(startOffset, endOffset, _axisNumber, 0, LabelMarkStyle.None);
+                inputChart.ChartAreas[0].AxisX.CustomLabels.Add(_axisLabel);
+                outputChart.ChartAreas[0].AxisX.CustomLabels.Add(_axisLabel);
+                startOffset = startOffset + 10;
+                endOffset = endOffset + 10;
+            }
+
             if (!inputChart.Series.Any(s => s.Name == "YInternalQueueValues"))
             {
                 inputChart.Series.Add("YInternalQueueValues");
@@ -255,21 +288,19 @@ namespace ViewWindow
                 inputChart.Series.Add("YPowerValues");
             }
 
-            inputChart.Series["YInternalQueueValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            inputChart.Series["YAnodeCurrentValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            inputChart.Series["YPowerValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            inputChart.Series["YInternalQueueValues"].ChartType = SeriesChartType.Spline;
+            inputChart.Series["YAnodeCurrentValues"].ChartType = SeriesChartType.Spline;
+            inputChart.Series["YPowerValues"].ChartType = SeriesChartType.Spline;
 
-            //chart1.ChartAreas[0].AxisX.LabelStyle.Format = "mm:ss";
-
-            inputChart.ChartAreas[0].AxisX.IsMarginVisible = false;
+            inputChart.ChartAreas[0].AxisX.LabelStyle.Format = "mm:ss";
 
             inputChart.ChartAreas[0].AxisX.Maximum = 100;
             inputChart.ChartAreas[0].AxisX.Minimum = 0;
 
             inputChart.ChartAreas[0].AxisY.Maximum = 15;
 
-            inputChart.ChartAreas[0].AxisX.MajorGrid.Interval = 5;
-            inputChart.ChartAreas[0].AxisX.LabelStyle.Interval = 5;
+            inputChart.ChartAreas[0].AxisX.MajorGrid.Interval = 10;
+            inputChart.ChartAreas[0].AxisX.LabelStyle.Interval = 10;
 
         }
 
@@ -278,8 +309,8 @@ namespace ViewWindow
             outputChart.Series.Add("YOutboundCurrentActiveValues");
             outputChart.Series.Add("YAngleValueKValues");
 
-            outputChart.Series["YOutboundCurrentActiveValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            outputChart.Series["YAngleValueKValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            outputChart.Series["YOutboundCurrentActiveValues"].ChartType = SeriesChartType.Spline;
+            outputChart.Series["YAngleValueKValues"].ChartType = SeriesChartType.Spline;
 
 
             //chart1.ChartAreas[0].AxisX.LabelStyle.Format = "mm:ss";
@@ -292,7 +323,7 @@ namespace ViewWindow
             outputChart.ChartAreas[0].AxisY.Maximum = 10;
 
             outputChart.ChartAreas[0].AxisX.MajorGrid.Interval = 5;
-            outputChart.ChartAreas[0].AxisX.LabelStyle.Interval = 5;
+            outputChart.ChartAreas[0].AxisX.LabelStyle.Interval = 10;
 
         }
 
@@ -308,6 +339,7 @@ namespace ViewWindow
                     break;
             }
         }
+
     }
 
 

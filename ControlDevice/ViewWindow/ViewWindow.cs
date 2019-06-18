@@ -26,9 +26,6 @@ namespace ViewWindow
 
         private SynchronizedNotifyPropertyChanged<CalculationViewModel> _threadSafeVM;
 
-        public DoubleFixedSizeQueue _chartInputQueue { get; private set; }
-        public DoubleFixedSizeQueue _chartOutputQueue { get; private set; }
-
         public ViewWindow()
         {
             InitializeComponent();
@@ -73,7 +70,7 @@ namespace ViewWindow
 
         private void pushButton_Click(object sender, EventArgs e)
         {
-            bool isParsable = float.TryParse(outputPendingBox.Text, out float result);
+            bool isParsable = float.TryParse(outputPendingBox.Text,System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.CultureInfo.InvariantCulture, out float result);
             if (_isStarted & isParsable)
             {
                 float pushValue = float.Parse(outputPendingBox.Text, System.Globalization.CultureInfo.InvariantCulture);
@@ -81,7 +78,6 @@ namespace ViewWindow
 
 
                 _viewModel.OutputBoardPush(pushValue);
-                //outputActiveBox.Text = outputPendingBox.Text;
                 outputActiveBox.Text = _viewModel.OutboundCurrentActive.ToString();
             }
 
@@ -91,31 +87,12 @@ namespace ViewWindow
         private void ViewWindow_Load(object sender, EventArgs e)
         {
 
-            #region OutputChartSetup
-            outputChart.Series.Add("YValues");
-
-            outputChart.Series["YValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-
-            //chart1.ChartAreas[0].AxisX.LabelStyle.Format = "mm:ss";
-
-            outputChart.ChartAreas[0].AxisX.IsMarginVisible = false;
-
-            outputChart.ChartAreas[0].AxisX.Maximum = 100;
-            outputChart.ChartAreas[0].AxisX.Minimum = 0;
-
-            outputChart.ChartAreas[0].AxisY.Maximum = 10;
-
-            outputChart.ChartAreas[0].AxisX.MajorGrid.Interval = 5;
-            outputChart.ChartAreas[0].AxisX.LabelStyle.Interval = 5;
-            #endregion
-            _chartInputQueue = new DoubleFixedSizeQueue(100);
-
             InputChartSetup();
+            OutputChartSetup();
 
             BindControls();
 
             drawChart();
-
             FormClosing += ViewWindow_FormClosing;
 
             adcCurrentOutput.CheckedChanged += RadioButtons_CheckedChanged;
@@ -143,21 +120,18 @@ namespace ViewWindow
                         inputChart.Series["YInternalQueueValues"].Enabled = true;
                         inputChart.Series["YAnodeCurrentValues"].Enabled = false;
                         inputChart.Series["YPowerValues"].Enabled = false;
-                        outputPendingBox.Text = "1";
                         break;
 
                     case "generatorPowerOutput":
                         inputChart.Series["YInternalQueueValues"].Enabled = false;
-                        inputChart.Series["YAnodeCurrentValues"].Enabled = true;
-                        inputChart.Series["YPowerValues"].Enabled = false;
-                        outputPendingBox.Text = "2";
+                        inputChart.Series["YAnodeCurrentValues"].Enabled = false;
+                        inputChart.Series["YPowerValues"].Enabled = true;
                         break;
 
                     case "generatorCurrentOutput":
                         inputChart.Series["YInternalQueueValues"].Enabled = false;
-                        inputChart.Series["YAnodeCurrentValues"].Enabled = false;
-                        inputChart.Series["YPowerValues"].Enabled = true;
-                        outputPendingBox.Text = "3";
+                        inputChart.Series["YAnodeCurrentValues"].Enabled = true;
+                        inputChart.Series["YPowerValues"].Enabled = false;
                         break;
 
                     case "dacVoltage":
@@ -186,7 +160,7 @@ namespace ViewWindow
                 {
                     //var point = ((SynchronizedNotifyPropertyChanged<CalculationViewModel>)s).Source.Values.Queue.Last();
 
-                    if (_chartInputQueue != null)
+                    if (_viewModel.InternalQueue.Queue != null)
                     {
                         _pointRefreshLimitYAxis = _viewModel.InternalQueue.Queue.Count();
                     }
@@ -244,16 +218,30 @@ namespace ViewWindow
                         _pointRefreshLimitYAxis = _viewModel.InternalOutputQueue.Queue.Count();
                     }
 
-                    outputChart.Series["YValues"].Points.Clear();
+                    outputChart.Series["YOutboundCurrentActiveValues"].Points.Clear();
 
                     for (int _localPointCounter = 0; _localPointCounter < _pointRefreshLimitYAxis - 1; ++_localPointCounter)
                     {
                         //chart1.Series["YValues"].Points.AddXY(_viewModel.XAxisTimerQueue.Queue.ElementAt(_localPointCounter), _viewModel.InternalQueue.Queue.ElementAt(_localPointCounter));
-                        outputChart.Series["YValues"].Points.AddY(_viewModel.InternalOutputQueue.Queue.ElementAt(_localPointCounter));
+                        outputChart.Series["YOutboundCurrentActiveValues"].Points.AddY(_viewModel.InternalOutputQueue.Queue.ElementAt(_localPointCounter));
                     }
                 }
 
+                if (args.PropertyName == "AngleValueK")
+                {
+                    if (_viewModel.AngleValueK.Queue != null)
+                    {
+                        _pointRefreshLimitYAxis = _viewModel.AngleValueK.Queue.Count();
+                    }
 
+                    outputChart.Series["YAngleValueKValues"].Points.Clear();
+
+                    for (int _localPointCounter = 0; _localPointCounter < _pointRefreshLimitYAxis - 1; ++_localPointCounter)
+                    {
+                        //chart1.Series["YValues"].Points.AddXY(_viewModel.XAxisTimerQueue.Queue.ElementAt(_localPointCounter), _viewModel.InternalQueue.Queue.ElementAt(_localPointCounter));
+                        outputChart.Series["YAngleValueKValues"].Points.AddY(_viewModel.AngleValueK.Queue.ElementAt(_localPointCounter));
+                    }
+                }
             };
 
         }
@@ -285,11 +273,40 @@ namespace ViewWindow
 
         }
 
-        private void correctionCheckBox_checked(object sender,EventArgs e)
+        public void OutputChartSetup()
         {
+            outputChart.Series.Add("YOutboundCurrentActiveValues");
+            outputChart.Series.Add("YAngleValueKValues");
+
+            outputChart.Series["YOutboundCurrentActiveValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            outputChart.Series["YAngleValueKValues"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
 
 
+            //chart1.ChartAreas[0].AxisX.LabelStyle.Format = "mm:ss";
 
+            outputChart.ChartAreas[0].AxisX.IsMarginVisible = false;
+
+            outputChart.ChartAreas[0].AxisX.Maximum = 100;
+            outputChart.ChartAreas[0].AxisX.Minimum = 0;
+
+            outputChart.ChartAreas[0].AxisY.Maximum = 10;
+
+            outputChart.ChartAreas[0].AxisX.MajorGrid.Interval = 5;
+            outputChart.ChartAreas[0].AxisX.LabelStyle.Interval = 5;
+
+        }
+
+        private void correctionCheckBox_Checked(object sender, EventArgs e)
+        {
+            switch(correctionCheckBox.CheckState)
+            {
+                case (CheckState.Checked):
+                    outputPendingBox.Text = "yes";
+                    break;
+                case (CheckState.Unchecked):
+                    outputPendingBox.Text = "no";
+                    break;
+            }
         }
     }
 

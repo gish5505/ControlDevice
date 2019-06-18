@@ -258,7 +258,7 @@
             this.correctionCheckBox.TabIndex = 20;
             this.correctionCheckBox.Text = "Режим коррекции";
             this.correctionCheckBox.UseVisualStyleBackColor = true;
-            this.correctionCheckBox.CheckedChanged += new System.EventHandler(this.correctionCheckBox_checked);
+            this.correctionCheckBox.CheckedChanged += new System.EventHandler(this.correctionCheckBox_Checked);
             // 
             // adcCurrentOutput
             // 

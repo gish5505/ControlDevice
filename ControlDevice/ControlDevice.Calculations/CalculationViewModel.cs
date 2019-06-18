@@ -20,6 +20,8 @@ namespace ControlDevice.Calculations
         private double _inboundVoltage;
         private double _inboundVoltageAverage;
         private double _meanderVoltage;
+        public float _angleValueK;
+        public float _shiftAmountB;
         private readonly Timer _cardPollTimer;
         private Timer _meanderLength;
 
@@ -41,6 +43,8 @@ namespace ControlDevice.Calculations
 
             XAxisTimerQueue = new DateTimeFixedSizeQueue(100);
 
+            AngleValueK = new DoubleFixedSizeQueue(100);
+
 
             _cardPollTimer.Elapsed += (s, e) =>
             {
@@ -60,11 +64,14 @@ namespace ControlDevice.Calculations
                     InternalOutputQueue.Enqueue(OutboundCurrentActive);
                     OnPropertyChanged("OutboundCurrentActive");
 
-                    InternalOutputAnodeQueue.Enqueue(InboundVoltage* ValueFromRange((float)InboundVoltage));
+                    InternalOutputAnodeQueue.Enqueue(InboundVoltage* ValueFromRange((float)InboundVoltage)+ShiftAmountB((float)InboundVoltage));
                     OnPropertyChanged("OutboundAnodeCurrentActive");
 
-                    InternalOutputPowerQueue.Enqueue(3 * InboundVoltage * ValueFromRange((float)InboundVoltage));
+                    InternalOutputPowerQueue.Enqueue(3 * InboundVoltage * ValueFromRange((float)InboundVoltage) + ShiftAmountB((float)InboundVoltage));
                     OnPropertyChanged("OutboundPowerActive");
+
+                    AngleValueK.Enqueue(_angleValueK);
+                    OnPropertyChanged("AngleValueK");
                 }
                 finally
                 {
@@ -85,6 +92,7 @@ namespace ControlDevice.Calculations
         public DoubleFixedSizeQueue InternalOutputAnodeQueue { get; private set; }
         public DoubleFixedSizeQueue InternalOutputPowerQueue { get; private set; }
         public FixedSizeQueue<DateTime> XAxisTimerQueue { get; private set; }
+        public DoubleFixedSizeQueue AngleValueK { get; private set; }
 
         public void Start()
         {
@@ -123,7 +131,7 @@ namespace ControlDevice.Calculations
 
         public void OutputBoardPush(float inboundCurrentFromControl)
         {
-            OutboundCurrentActive = inboundCurrentFromControl; //* ValueFromRange(inboundCurrentFromControl);
+            OutboundCurrentActive = inboundCurrentFromControl * ValueFromRange(inboundCurrentFromControl);
 
             _outboundCurrentActive = OutboundCurrentActive;
 
@@ -144,9 +152,24 @@ namespace ControlDevice.Calculations
 
             float _highValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.HighValueX).FirstOrDefault();
 
-            float _angleValueK = (_highValueY - _lowValueY) / (_highValueX - _lowValueX);
+            _angleValueK = (_highValueY - _lowValueY) / (_highValueX - _lowValueX);
 
             return _angleValueK;
+        }
+
+        public float ShiftAmountB(float inboundCurrentFromControl)
+        {
+            float _lowValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.LowValueY).FirstOrDefault();
+
+            float _highValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.HighValueY).FirstOrDefault();
+
+            float _lowValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.LowValueX).FirstOrDefault();
+
+            float _highValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.HighValueX).FirstOrDefault();
+
+            _shiftAmountB = _lowValueY - _angleValueK * _lowValueX;
+
+            return _shiftAmountB;
         }
 
         public void VoltageAveraging()

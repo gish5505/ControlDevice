@@ -21,5 +21,11 @@ namespace ControlDevice.Calculations
 
         [XmlAttribute]
         public float HighValueX { get; set; }
+
+        [XmlAttribute]
+        public float HighValueDAC { get; set; }
+
+        [XmlAttribute]
+        public float LowValueDAC { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace ViewWindow
             DockingOffset = 2,
             IsDockedInsideChartArea = false,
             Name = "adcCurrentOutput",
-            Text = "Вольтаж, В",
+            Text = "Напряжение, В",
             TextOrientation = TextOrientation.Rotated270
         };
 
@@ -127,41 +127,45 @@ namespace ViewWindow
             {
                 switch (radioButton.Name)
                 {
-                    case "adcCurrentOutput":
+                    case "dacVoltage":
+
                         inputChart.Series["YInternalQueueValues"].Enabled = true;
                         inputChart.Series["YAnodeCurrentValues"].Enabled = false;
                         inputChart.Series["YPowerValues"].Enabled = false;
-                        adcCurrentTitle.Text = "Вольтаж, В";
+                        adcCurrentTitle.Text = "Напряжение, В";
                         inputChart.ChartAreas[0].AxisY.Maximum = 10;
                         groupBox1.Text = "Выставленное значение тока, мА";
+                        outputPendingBox.Clear();
                         break;
 
-                    case "generatorPowerOutput":
+                    case "generatorPowerShown":
                         inputChart.Series["YInternalQueueValues"].Enabled = false;
                         inputChart.Series["YAnodeCurrentValues"].Enabled = false;
                         inputChart.Series["YPowerValues"].Enabled = true;
                         adcCurrentTitle.Text = "Мощность, кВт";
                         inputChart.ChartAreas[0].AxisY.Maximum = 20;
                         groupBox1.Text = "Выставленное значение мощности, кВт";
+                        outputPendingBox.Clear();
                         break;
 
-                    case "generatorCurrentOutput":
+                    case "generatorCurrentShown" :
                         inputChart.Series["YInternalQueueValues"].Enabled = false;
                         inputChart.Series["YAnodeCurrentValues"].Enabled = true;
                         inputChart.Series["YPowerValues"].Enabled = false;
                         adcCurrentTitle.Text = "Ток анода, А";
                         groupBox1.Text = "Выставленное значение анодного тока, кВт";
                         inputChart.ChartAreas[0].AxisY.Maximum = 10;
+                        outputPendingBox.Clear();
                         break;
 
-                    case "dacVoltage":
+                    case "adcCurrentOutput":
 
                         break;
 
-                    case "generatorPowerShown":
+                    case "generatorPowerOutput":
 
                         break;
-                    case "generatorCurrentShown":
+                    case "generatorCurrentOutput":
 
                         break;
 

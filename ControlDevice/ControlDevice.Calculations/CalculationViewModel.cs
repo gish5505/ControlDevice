@@ -9,7 +9,7 @@ using System.Timers;
 
 namespace ControlDevice.Calculations
 {
-    public class CalculationViewModel : INotifyPropertyChanged
+    public partial class CalculationViewModel : INotifyPropertyChanged
     {
 
         private IListenerBoard _board;
@@ -64,13 +64,13 @@ namespace ControlDevice.Calculations
                     InternalOutputQueue.Enqueue(OutboundCurrentActive);
                     OnPropertyChanged("OutboundCurrentActive");
 
-                    InternalOutputAnodeQueue.Enqueue(InboundVoltage* ValueFromRange((float)InboundVoltage)+ShiftAmountB((float)InboundVoltage));
+                    InternalOutputAnodeQueue.Enqueue((InboundVoltage)* ValueFromRangeDAC((float)InboundVoltage)+ShiftAmountBDAC((float)InboundVoltage));
                     OnPropertyChanged("OutboundAnodeCurrentActive");
 
-                    InternalOutputPowerQueue.Enqueue(3 * InboundVoltage * ValueFromRange((float)InboundVoltage) + ShiftAmountB((float)InboundVoltage));
+                    InternalOutputPowerQueue.Enqueue(3 * InboundVoltage * ValueFromRangeDAC((float)InboundVoltage) + ShiftAmountBDAC((float)InboundVoltage));
                     OnPropertyChanged("OutboundPowerActive");
 
-                    AngleValueK.Enqueue(_angleValueK);
+                    AngleValueK.Enqueue(ValueFromRangeDAC((float)InboundVoltage));
                     OnPropertyChanged("AngleValueK");
                 }
                 finally
@@ -140,56 +140,6 @@ namespace ControlDevice.Calculations
                 _outputBoard.BoardPushValue((float)OutboundCurrentActive);
             }
             
-        }
-
-        public float ValueFromRange(float inboundCurrentFromControl)
-        {
-            float _lowValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.LowValueY).FirstOrDefault();
-
-            float _highValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.HighValueY).FirstOrDefault();
-
-            float _lowValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.LowValueX).FirstOrDefault();
-
-            float _highValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.HighValueX).FirstOrDefault();
-
-            _angleValueK = (_highValueY - _lowValueY) / (_highValueX - _lowValueX);
-
-            return _angleValueK;
-        }
-
-        public float ShiftAmountB(float inboundCurrentFromControl)
-        {
-            float _lowValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.LowValueY).FirstOrDefault();
-
-            float _highValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.HighValueY).FirstOrDefault();
-
-            float _lowValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.LowValueX).FirstOrDefault();
-
-            float _highValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.HighValueX).FirstOrDefault();
-
-            _shiftAmountB = _lowValueY - _angleValueK * _lowValueX;
-
-            return _shiftAmountB;
-        }
-
-        public void VoltageAveraging()
-        {
-            int i = InternalQueue.Queue.Count - 10;
-
-            if (i<0)
-            {
-                i = 0;
-            }
-
-            for (; i<InternalQueue.Queue.Count; i++)
-            {
-                InboundVoltageAverage = InternalQueue.Queue.ElementAt(i) + InboundVoltageAverage;
-            }
-
-            InboundVoltageAverage = InboundVoltageAverage / 10;
-
-            InboundVoltageAverage = Math.Round(InboundVoltageAverage, 4, MidpointRounding.ToEven);
-
         }
 
         public void MeanderGenerate(float inboundCurrentFromControl)

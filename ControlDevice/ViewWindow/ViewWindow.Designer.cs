@@ -26,19 +26,21 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        protected internal void InitializeComponent()
+        private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.btnStart = new System.Windows.Forms.Button();
             this.voltageBox = new System.Windows.Forms.TextBox();
             this.outputPendingBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.inputChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.doubleFixedSizeQueueBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.outputActiveBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -61,15 +63,14 @@
             this.button2 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.doubleFixedSizeQueueBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.inputChart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doubleFixedSizeQueueBindingSource)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.outputChart)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.doubleFixedSizeQueueBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStart
@@ -125,11 +126,23 @@
             title1.Alignment = System.Drawing.ContentAlignment.TopCenter;
             title1.DockedToChartArea = "ChartArea1";
             title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            title1.DockingOffset = -2;
             title1.IsDockedInsideChartArea = false;
             title1.Name = "Title1";
             title1.Text = "Время, сек";
+            title2.Alignment = System.Drawing.ContentAlignment.BottomCenter;
+            title2.DockedToChartArea = "ChartArea1";
+            title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
+            title2.DockingOffset = 2;
+            title2.IsDockedInsideChartArea = false;
+            title2.Name = "VTitle";
+            title2.Text = "Напряжение, В";
+            title2.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Rotated270;
             this.inputChart.Titles.Add(title1);
+            this.inputChart.Titles.Add(title2);
+            // 
+            // doubleFixedSizeQueueBindingSource
+            // 
+            this.doubleFixedSizeQueueBindingSource.DataSource = typeof(ControlDevice.Calculations.DoubleFixedSizeQueue);
             // 
             // button1
             // 
@@ -224,17 +237,17 @@
             this.outputChart.Size = new System.Drawing.Size(685, 314);
             this.outputChart.TabIndex = 19;
             this.outputChart.Text = "chart2";
-            title2.Alignment = System.Drawing.ContentAlignment.BottomCenter;
-            title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            title2.Name = "Title1";
-            title2.Text = "Время, сек";
             title3.Alignment = System.Drawing.ContentAlignment.BottomCenter;
-            title3.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            title3.DockingOffset = 2;
-            title3.Name = "Title2";
-            title3.Text = "Ток АЦП, мА";
-            this.outputChart.Titles.Add(title2);
+            title3.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            title3.Name = "Title1";
+            title3.Text = "Время, сек";
+            title4.Alignment = System.Drawing.ContentAlignment.BottomCenter;
+            title4.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
+            title4.DockingOffset = 2;
+            title4.Name = "Title2";
+            title4.Text = "Ток АЦП, мА";
             this.outputChart.Titles.Add(title3);
+            this.outputChart.Titles.Add(title4);
             // 
             // correctionCheckBox
             // 
@@ -378,10 +391,6 @@
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 26;
             // 
-            // doubleFixedSizeQueueBindingSource
-            // 
-            this.doubleFixedSizeQueueBindingSource.DataSource = typeof(ControlDevice.Calculations.DoubleFixedSizeQueue);
-            // 
             // ViewWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -401,6 +410,7 @@
             this.Text = "magcontrol";
             this.Load += new System.EventHandler(this.ViewWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.inputChart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doubleFixedSizeQueueBindingSource)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -412,7 +422,6 @@
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.doubleFixedSizeQueueBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

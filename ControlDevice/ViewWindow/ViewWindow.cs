@@ -27,17 +27,6 @@ namespace ViewWindow
 
         private SynchronizedNotifyPropertyChanged<CalculationViewModel> _threadSafeVM;
 
-        Title adcCurrentTitle = new Title       //custom title, had to lower InitializeComponent() access level to avoid repeating this pattern, but still usable
-        {
-            DockedToChartArea = "ChartArea1",
-            Docking = Docking.Left,
-            DockingOffset = 2,
-            IsDockedInsideChartArea = false,
-            Name = "adcCurrentOutput",
-            Text = "Напряжение, В",
-            TextOrientation = TextOrientation.Rotated270
-        };
-
         public ViewWindow()
         {
             InitializeComponent();
@@ -102,7 +91,6 @@ namespace ViewWindow
 
             BindControls();
 
-            inputChart.Titles.Add(adcCurrentTitle);
             drawChart();
             FormClosing += ViewWindow_FormClosing;
 
@@ -132,8 +120,8 @@ namespace ViewWindow
                         inputChart.Series["YInternalQueueValues"].Enabled = true;
                         inputChart.Series["YAnodeCurrentValues"].Enabled = false;
                         inputChart.Series["YPowerValues"].Enabled = false;
-                        adcCurrentTitle.Text = "Напряжение, В";
                         inputChart.ChartAreas[0].AxisY.Maximum = 10;
+                        inputChart.Titles[1].Text = "Напряжение, В";
                         groupBox1.Text = "Выставленное значение тока, мА";
                         outputPendingBox.Clear();
                         break;
@@ -142,7 +130,7 @@ namespace ViewWindow
                         inputChart.Series["YInternalQueueValues"].Enabled = false;
                         inputChart.Series["YAnodeCurrentValues"].Enabled = false;
                         inputChart.Series["YPowerValues"].Enabled = true;
-                        adcCurrentTitle.Text = "Мощность, кВт";
+                        inputChart.Titles[1].Text = "Мощность, кВт";
                         inputChart.ChartAreas[0].AxisY.Maximum = 20;
                         groupBox1.Text = "Выставленное значение мощности, кВт";
                         outputPendingBox.Clear();
@@ -152,8 +140,8 @@ namespace ViewWindow
                         inputChart.Series["YInternalQueueValues"].Enabled = false;
                         inputChart.Series["YAnodeCurrentValues"].Enabled = true;
                         inputChart.Series["YPowerValues"].Enabled = false;
-                        adcCurrentTitle.Text = "Ток анода, А";
-                        groupBox1.Text = "Выставленное значение анодного тока, кВт";
+                        inputChart.Titles[1].Text = "Ток анода, А";
+                        groupBox1.Text = "Выставленное значение анодного тока, А";
                         inputChart.ChartAreas[0].AxisY.Maximum = 10;
                         outputPendingBox.Clear();
                         break;

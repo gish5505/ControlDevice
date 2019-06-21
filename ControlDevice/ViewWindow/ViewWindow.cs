@@ -78,7 +78,10 @@ namespace ViewWindow
                 _viewModel.OutputBoardPush(pushValue);
                 outputActiveBox.Text = _viewModel.OutboundCurrentActive.ToString();
             }
-
+            else
+            {
+                outputPendingBox.Text = "try better LUL";
+            }
         }
 
 
@@ -93,6 +96,7 @@ namespace ViewWindow
 
             drawChart();
             FormClosing += ViewWindow_FormClosing;
+
 
             adcCurrentOutput.CheckedChanged += RadioButtons_CheckedChanged;
             generatorPowerOutput.CheckedChanged += RadioButtons_CheckedChanged;
@@ -131,7 +135,7 @@ namespace ViewWindow
                         inputChart.Series["YAnodeCurrentValues"].Enabled = false;
                         inputChart.Series["YPowerValues"].Enabled = true;
                         inputChart.Titles[1].Text = "Мощность, кВт";
-                        inputChart.ChartAreas[0].AxisY.Maximum = 20;
+                        inputChart.ChartAreas[0].AxisY.Maximum = 5;
                         groupBox1.Text = "Выставленное значение мощности, кВт";
                         outputPendingBox.Clear();
                         break;
@@ -142,7 +146,7 @@ namespace ViewWindow
                         inputChart.Series["YPowerValues"].Enabled = false;
                         inputChart.Titles[1].Text = "Ток анода, А";
                         groupBox1.Text = "Выставленное значение анодного тока, А";
-                        inputChart.ChartAreas[0].AxisY.Maximum = 10;
+                        inputChart.ChartAreas[0].AxisY.Maximum = 1.5;
                         outputPendingBox.Clear();
                         break;
 
@@ -290,6 +294,7 @@ namespace ViewWindow
             inputChart.ChartAreas[0].AxisX.Minimum = 0;
 
             inputChart.ChartAreas[0].AxisY.Maximum = 15;
+            inputChart.ChartAreas[0].AxisY.Minimum = 0;
 
             inputChart.ChartAreas[0].AxisX.MajorGrid.Interval = 10;
             inputChart.ChartAreas[0].AxisX.LabelStyle.Interval = 10;

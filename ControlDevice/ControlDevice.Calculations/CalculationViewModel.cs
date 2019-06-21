@@ -64,10 +64,10 @@ namespace ControlDevice.Calculations
                     InternalOutputQueue.Enqueue(OutboundCurrentActive);
                     OnPropertyChanged("OutboundCurrentActive");
 
-                    InternalOutputAnodeQueue.Enqueue((InboundVoltage)* ValueFromRangeDAC((float)InboundVoltage)+ShiftAmountBDAC((float)InboundVoltage));
+                    InternalOutputAnodeQueue.Enqueue((InboundVoltage * ValueFromRangeDAC((float)InboundVoltage) + ShiftAmountBDAC((float)InboundVoltage)) / 10);
                     OnPropertyChanged("OutboundAnodeCurrentActive");
 
-                    InternalOutputPowerQueue.Enqueue(3 * InboundVoltage * ValueFromRangeDAC((float)InboundVoltage) + ShiftAmountBDAC((float)InboundVoltage));
+                    InternalOutputPowerQueue.Enqueue(3 * InboundVoltage * ValueFromRangeDAC((float)InboundVoltage + ShiftAmountBDAC((float)InboundVoltage)) / 10);
                     OnPropertyChanged("OutboundPowerActive");
 
                     AngleValueK.Enqueue(ValueFromRangeDAC((float)InboundVoltage));
@@ -113,9 +113,9 @@ namespace ControlDevice.Calculations
 
             IListenerBoard result;
 
-            result = new ListenerBoardMock();
+            //result = new ListenerBoardMock();
 
-            //result = new ListenerBoard(0);
+            result = new ListenerBoard(0);
 
             return result;
         }
@@ -125,13 +125,13 @@ namespace ControlDevice.Calculations
             if (_outputBoard != null)
                 return _outputBoard;
 
-            //return new OutputBoard();
-            return new OutputBoardMock();
+            return new OutputBoard();
+            //return new OutputBoardMock();
         }
 
         public void OutputBoardPush(float inboundCurrentFromControl)
         {
-            OutboundCurrentActive = inboundCurrentFromControl * ValueFromRange(inboundCurrentFromControl);
+            OutboundCurrentActive = inboundCurrentFromControl;// * ValueFromRange(inboundCurrentFromControl);
 
             _outboundCurrentActive = OutboundCurrentActive;
 
@@ -140,6 +140,32 @@ namespace ControlDevice.Calculations
                 _outputBoard.BoardPushValue((float)OutboundCurrentActive);
             }
             
+        }
+
+        public void OutputBoardPushPower(float inboundCurrentFromControl)
+        {
+            OutboundCurrentActive = 10 * (inboundCurrentFromControl / 3) * ValueFromRange(10 * (inboundCurrentFromControl / 3)) + ShiftAmountB(10 * (inboundCurrentFromControl / 3));
+
+            _outboundCurrentActive = OutboundCurrentActive;
+
+            if (_outputBoard != null)
+            {
+                _outputBoard.BoardPushValue((float)OutboundCurrentActive);
+            }
+
+        }
+
+        public void OutputBoardPushAnodeCurrent(float inboundCurrentFromControl)
+        {
+            OutboundCurrentActive = 10 * inboundCurrentFromControl * ValueFromRange(10 * inboundCurrentFromControl) + ShiftAmountB(10 * inboundCurrentFromControl);
+
+            _outboundCurrentActive = OutboundCurrentActive;
+
+            if (_outputBoard != null)
+            {
+                _outputBoard.BoardPushValue((float)OutboundCurrentActive);
+            }
+
         }
 
         public void MeanderGenerate(float inboundCurrentFromControl)

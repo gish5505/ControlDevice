@@ -70,13 +70,13 @@ namespace ControlDevice.Calculations
 
         public float ValueFromRangeDAC(float inboundCurrentFromControl)
         {
-            float _lowValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.LowValueDAC).FirstOrDefault();
+            float _lowValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueDAC && inboundCurrentFromControl <= r.HighValueDAC).Select(s => s.LowValueX).FirstOrDefault();
 
-            float _highValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.HighValueDAC).FirstOrDefault();
+            float _highValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueDAC && inboundCurrentFromControl <= r.HighValueDAC).Select(s => s.HighValueX).FirstOrDefault();
 
-            float _lowValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.LowValueX).FirstOrDefault();
+            float _lowValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueDAC && inboundCurrentFromControl <= r.HighValueDAC).Select(s => s.LowValueDAC).FirstOrDefault();
 
-            float _highValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.HighValueX).FirstOrDefault();
+            float _highValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueDAC && inboundCurrentFromControl <= r.HighValueDAC).Select(s => s.HighValueDAC).FirstOrDefault();
 
             _angleValueK = (_highValueY - _lowValueY) / (_highValueX - _lowValueX);
 
@@ -100,13 +100,13 @@ namespace ControlDevice.Calculations
 
         public float ShiftAmountBDAC(float inboundCurrentFromControl)
         {
-            float _lowValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.LowValueDAC).FirstOrDefault();
+            float _lowValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueDAC && inboundCurrentFromControl <= r.HighValueDAC).Select(s => s.LowValueX).FirstOrDefault();
 
-            float _highValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.HighValueDAC).FirstOrDefault();
+            float _highValueY = _ranges.Where(r => inboundCurrentFromControl > r.LowValueDAC && inboundCurrentFromControl <= r.HighValueDAC).Select(s => s.HighValueX).FirstOrDefault();
 
-            float _lowValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.LowValueX).FirstOrDefault();
+            float _lowValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueDAC && inboundCurrentFromControl <= r.HighValueDAC).Select(s => s.LowValueDAC).FirstOrDefault();
 
-            float _highValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueX && inboundCurrentFromControl <= r.HighValueX).Select(s => s.HighValueX).FirstOrDefault();
+            float _highValueX = _ranges.Where(r => inboundCurrentFromControl > r.LowValueDAC && inboundCurrentFromControl <= r.HighValueDAC).Select(s => s.HighValueDAC).FirstOrDefault();
 
             _shiftAmountB = _lowValueY - _angleValueK * _lowValueX;
 
@@ -130,7 +130,8 @@ namespace ControlDevice.Calculations
 
         public void VoltageAveraging()
         {
-            int i = InternalQueue.Queue.Count - 10;
+            int n = 2;
+            int i = (InternalQueue.Queue.Count + 1) - n;
 
             if (i < 0)
             {
@@ -142,7 +143,7 @@ namespace ControlDevice.Calculations
                 InboundVoltageAverage = InternalQueue.Queue.ElementAt(i) + InboundVoltageAverage;
             }
 
-            InboundVoltageAverage = InboundVoltageAverage / 10;
+            InboundVoltageAverage = InboundVoltageAverage / n;
 
             InboundVoltageAverage = Math.Round(InboundVoltageAverage, 4, MidpointRounding.ToEven);
 

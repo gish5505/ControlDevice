@@ -263,10 +263,12 @@
             // adcCurrentOutput
             // 
             this.adcCurrentOutput.AutoSize = true;
+            this.adcCurrentOutput.Checked = true;
             this.adcCurrentOutput.Location = new System.Drawing.Point(6, 21);
             this.adcCurrentOutput.Name = "adcCurrentOutput";
             this.adcCurrentOutput.Size = new System.Drawing.Size(91, 17);
             this.adcCurrentOutput.TabIndex = 16;
+            this.adcCurrentOutput.TabStop = true;
             this.adcCurrentOutput.Text = "Ток АЦП, мА";
             this.adcCurrentOutput.UseVisualStyleBackColor = true;
             // 
@@ -321,7 +323,6 @@
             this.generatorCurrentShown.Name = "generatorCurrentShown";
             this.generatorCurrentShown.Size = new System.Drawing.Size(118, 17);
             this.generatorCurrentShown.TabIndex = 25;
-            this.generatorCurrentShown.TabStop = true;
             this.generatorCurrentShown.Text = "Ток генератора, А";
             this.generatorCurrentShown.UseVisualStyleBackColor = true;
             // 
@@ -332,13 +333,13 @@
             this.generatorPowerShown.Name = "generatorPowerShown";
             this.generatorPowerShown.Size = new System.Drawing.Size(157, 17);
             this.generatorPowerShown.TabIndex = 1;
-            this.generatorPowerShown.TabStop = true;
             this.generatorPowerShown.Text = "Мощность генератора, Вт";
             this.generatorPowerShown.UseVisualStyleBackColor = true;
             // 
             // dacVoltage
             // 
             this.dacVoltage.AutoSize = true;
+            this.dacVoltage.Checked = true;
             this.dacVoltage.Location = new System.Drawing.Point(6, 21);
             this.dacVoltage.Name = "dacVoltage";
             this.dacVoltage.Size = new System.Drawing.Size(128, 17);

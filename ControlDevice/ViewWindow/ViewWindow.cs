@@ -71,16 +71,36 @@ namespace ViewWindow
 
         private void pushButton_Click(object sender, EventArgs e)
         {
+
             bool isParsable = float.TryParse(outputPendingBox.Text,System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.CultureInfo.InvariantCulture, out float result);
-            if (_isStarted & isParsable)
+            float pushValue = float.Parse(outputPendingBox.Text, System.Globalization.CultureInfo.InvariantCulture);
+
+            if (_isStarted & isParsable & !correctionCheckBox.Checked)
             {
-                float pushValue = float.Parse(outputPendingBox.Text, System.Globalization.CultureInfo.InvariantCulture);
-                _viewModel.OutputBoardPush(pushValue);
-                outputActiveBox.Text = _viewModel.OutboundCurrentActive.ToString();
+                if (adcCurrentOutput.Checked)
+                {
+                    _viewModel.OutputBoardPush(pushValue);
+                    outputActiveBox.Text = _viewModel.OutboundCurrentActive.ToString();
+                }
+
+                if (generatorCurrentOutput.Checked)
+                {
+                    _viewModel.OutputBoardPushAnodeCurrent(pushValue);
+                    outputActiveBox.Text = _viewModel.OutboundCurrentActive.ToString();
+                }
+
+                if (generatorPowerOutput.Checked)
+                {
+                    _viewModel.OutputBoardPushPower(pushValue);
+                    outputActiveBox.Text = _viewModel.OutboundCurrentActive.ToString();
+                }
+                
+                //outputActiveBox.Text = _viewModel.OutboundCurrentActive.ToString();
             }
-            else
+
+            if (_isStarted & isParsable & correctionCheckBox.Checked)
             {
-                outputPendingBox.Text = "try better LUL";
+                _viewModel.AutoMode(pushValue);
             }
         }
 
@@ -115,7 +135,7 @@ namespace ViewWindow
         {
             RadioButton radioButton = sender as RadioButton;
 
-            if (radioButton.Checked == true)
+            if (radioButton.Checked)
             {
                 switch (radioButton.Name)
                 {
@@ -151,14 +171,18 @@ namespace ViewWindow
                         break;
 
                     case "adcCurrentOutput":
-
+                        outputChart.Titles[1].Text = "Ток АЦП, мА";
+                        outputPendingBox.Clear();
                         break;
 
                     case "generatorPowerOutput":
-
+                        outputChart.Titles[1].Text = "Мощность генератора, мВт";
+                        outputPendingBox.Clear();
                         break;
-                    case "generatorCurrentOutput":
 
+                    case "generatorCurrentOutput":
+                        outputChart.Titles[1].Text = "Ток генератора, А";
+                        outputPendingBox.Clear();
                         break;
 
                 }
@@ -284,6 +308,9 @@ namespace ViewWindow
                 inputChart.Series.Add("YPowerValues");
             }
 
+            inputChart.Series["YAnodeCurrentValues"].Enabled = false;
+            inputChart.Series["YPowerValues"].Enabled = false;
+
             inputChart.Series["YInternalQueueValues"].ChartType = SeriesChartType.Spline;
             inputChart.Series["YAnodeCurrentValues"].ChartType = SeriesChartType.Spline;
             inputChart.Series["YPowerValues"].ChartType = SeriesChartType.Spline;
@@ -309,7 +336,7 @@ namespace ViewWindow
             outputChart.Series["YOutboundCurrentActiveValues"].ChartType = SeriesChartType.Spline;
             outputChart.Series["YAngleValueKValues"].ChartType = SeriesChartType.Spline;
 
-
+            outputChart.Series["YAngleValueKValues"].Enabled = false;
             //chart1.ChartAreas[0].AxisX.LabelStyle.Format = "mm:ss";
 
             outputChart.ChartAreas[0].AxisX.IsMarginVisible = false;
@@ -329,10 +356,10 @@ namespace ViewWindow
             switch(correctionCheckBox.CheckState)
             {
                 case (CheckState.Checked):
-                    outputPendingBox.Text = "yes";
+                    _viewModel._autoModeActive = true;
                     break;
                 case (CheckState.Unchecked):
-                    outputPendingBox.Text = "no";
+                    _viewModel._autoModeActive = false;
                     break;
             }
         }
@@ -340,5 +367,5 @@ namespace ViewWindow
     }
 
 
-    
+
 }

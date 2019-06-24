@@ -12,13 +12,9 @@ namespace ControlDevice.Models
     {
         int BoardNo { get; }
 
-
-
         ushort CardSearch();
 
         float CardPoll();
-
-
     }
 
 

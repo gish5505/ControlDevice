@@ -15,13 +15,14 @@ namespace ControlDevice.Calculations
         private IListenerBoard _board;
         private IOutputBoard _outputBoard;
 
-        private double _outboundCurrent;
         private double _outboundCurrentActive;
         private double _inboundVoltage;
         private double _inboundVoltageAverage;
         private double _meanderVoltage;
+        public bool _autoModeActive = false;
         public float _angleValueK;
         public float _shiftAmountB;
+        public float _autoModeTarget;
         private readonly Timer _cardPollTimer;
         private Timer _meanderLength;
 
@@ -31,7 +32,7 @@ namespace ControlDevice.Calculations
 
         public CalculationViewModel()
         {           
-            _cardPollTimer = new System.Timers.Timer(100);
+            _cardPollTimer = new Timer(100);
 
             InternalQueue = new DoubleFixedSizeQueue(100);
 
@@ -113,9 +114,9 @@ namespace ControlDevice.Calculations
 
             IListenerBoard result;
 
-            //result = new ListenerBoardMock();
+            result = new ListenerBoardMock();
 
-            result = new ListenerBoard(0);
+            //result = new ListenerBoard(0);
 
             return result;
         }
@@ -125,8 +126,8 @@ namespace ControlDevice.Calculations
             if (_outputBoard != null)
                 return _outputBoard;
 
-            return new OutputBoard();
-            //return new OutputBoardMock();
+            //return new OutputBoard();
+            return new OutputBoardMock();
         }
 
         public void OutputBoardPush(float inboundCurrentFromControl)
@@ -184,6 +185,13 @@ namespace ControlDevice.Calculations
 
                 OutputBoardPush(0);
             };
+
+        }
+
+        public void AutoMode(float autoModeTarget)
+        {
+
+            OutboundCurrentActive = autoModeTarget/2;
 
         }
 

@@ -277,9 +277,9 @@
             this.generatorPowerOutput.AutoSize = true;
             this.generatorPowerOutput.Location = new System.Drawing.Point(6, 44);
             this.generatorPowerOutput.Name = "generatorPowerOutput";
-            this.generatorPowerOutput.Size = new System.Drawing.Size(157, 17);
+            this.generatorPowerOutput.Size = new System.Drawing.Size(165, 17);
             this.generatorPowerOutput.TabIndex = 21;
-            this.generatorPowerOutput.Text = "Мощность генератора, Вт";
+            this.generatorPowerOutput.Text = "Мощность генератора, мВт";
             this.generatorPowerOutput.UseVisualStyleBackColor = true;
             // 
             // generatorCurrentOutput

@@ -32,11 +32,15 @@ namespace ControlDevice.Calculations
 
         public CalculationViewModel()
         {           
-            _cardPollTimer = new Timer(100);
+            _cardPollTimer = new Timer(25);
 
             InternalQueue = new DoubleFixedSizeQueue(100);
 
             InternalOutputQueue = new DoubleFixedSizeQueue(100);
+
+            InternalInputAnodeQueue = new DoubleFixedSizeQueue(100);
+
+            InternalInputPowerQueue = new DoubleFixedSizeQueue(100);
 
             InternalOutputAnodeQueue = new DoubleFixedSizeQueue(100);
 
@@ -62,17 +66,28 @@ namespace ControlDevice.Calculations
                     XAxisTimerQueue.Enqueue(DateTime.Now);
                     OnPropertyChanged("XAxisTimerQueue");
 
-                    InternalOutputQueue.Enqueue(OutboundCurrentActive);
-                    OnPropertyChanged("OutboundCurrentActive");
-
-                    InternalOutputAnodeQueue.Enqueue((InboundVoltage * ValueFromRangeDAC((float)InboundVoltage) + ShiftAmountBDAC((float)InboundVoltage)) / 10);
+                    InternalInputAnodeQueue.Enqueue((InboundVoltage * ValueFromRangeDAC((float)InboundVoltage) + ShiftAmountBDAC((float)InboundVoltage)) / 10);
                     OnPropertyChanged("OutboundAnodeCurrentActive");
 
-                    InternalOutputPowerQueue.Enqueue(3 * InboundVoltage * ValueFromRangeDAC((float)InboundVoltage + ShiftAmountBDAC((float)InboundVoltage)) / 10);
+                    InternalInputPowerQueue.Enqueue(3 * InboundVoltage * ValueFromRangeDAC((float)InboundVoltage + ShiftAmountBDAC((float)InboundVoltage)) / 10);
                     OnPropertyChanged("OutboundPowerActive");
 
                     AngleValueK.Enqueue(ValueFromRangeDAC((float)InboundVoltage));
                     OnPropertyChanged("AngleValueK");
+
+                    InternalOutputQueue.Enqueue(OutboundCurrentActive);
+                    OnPropertyChanged("OutboundCurrentActive");
+
+                    InternalOutputAnodeQueue.Enqueue(10 * _outboundCurrentActive * ValueFromRange(10 * (float)_outboundCurrentActive) + ShiftAmountB(10 * (float)_outboundCurrentActive));
+                    OnPropertyChanged("OutboundCurrentActiveAnode");
+
+                    InternalOutputPowerQueue.Enqueue(10 * (_outboundCurrentActive / 3) * ValueFromRange(10 * ((float)_outboundCurrentActive / 3)) + ShiftAmountB(10 * ((float)_outboundCurrentActive / 3)));
+                    OnPropertyChanged("OutboundCurrentActivePower");
+
+                    if (_autoModeActive)
+                    {
+                        AutoMode(2);
+                    }
                 }
                 finally
                 {
@@ -90,6 +105,8 @@ namespace ControlDevice.Calculations
 
         public DoubleFixedSizeQueue InternalQueue { get; private set; }
         public DoubleFixedSizeQueue InternalOutputQueue { get; private set; }
+        public DoubleFixedSizeQueue InternalInputAnodeQueue { get; private set; }
+        public DoubleFixedSizeQueue InternalInputPowerQueue { get; private set; }
         public DoubleFixedSizeQueue InternalOutputAnodeQueue { get; private set; }
         public DoubleFixedSizeQueue InternalOutputPowerQueue { get; private set; }
         public FixedSizeQueue<DateTime> XAxisTimerQueue { get; private set; }
@@ -114,9 +131,9 @@ namespace ControlDevice.Calculations
 
             IListenerBoard result;
 
-            result = new ListenerBoardMock();
+            //result = new ListenerBoardMock();
 
-            //result = new ListenerBoard(0);
+            result = new ListenerBoard(0);
 
             return result;
         }
@@ -126,8 +143,8 @@ namespace ControlDevice.Calculations
             if (_outputBoard != null)
                 return _outputBoard;
 
-            //return new OutputBoard();
-            return new OutputBoardMock();
+            return new OutputBoard();
+            //return new OutputBoardMock();
         }
 
         public void OutputBoardPush(float inboundCurrentFromControl)
@@ -190,9 +207,17 @@ namespace ControlDevice.Calculations
 
         public void AutoMode(float autoModeTarget)
         {
+            autoModeTarget = 2.9f;
 
-            OutboundCurrentActive = autoModeTarget/2;
-
+            float _currentChange;
+            double _deltaI = -0.05 * (InboundVoltage - 2.9);
+            /*if (Math.Abs(_deltaI) > 0.3) 
+            {
+                _deltaI = -0.2 * Math.Sign(InboundVoltage - 2.9);
+            }*/
+            
+            float _pushCurrent = (float)(OutboundCurrentActive + _deltaI);
+            OutputBoardPush(_pushCurrent);
         }
 
         #region OnPropertyChanged

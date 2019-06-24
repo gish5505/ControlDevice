@@ -171,16 +171,25 @@ namespace ViewWindow
                         break;
 
                     case "adcCurrentOutput":
+                        outputChart.Series["YOutboundCurrentActiveValues"].Enabled = true;
+                        outputChart.Series["YOutboundCurrentActiveValuesAnode"].Enabled = false;
+                        outputChart.Series["YOutboundCurrentActiveValuesPower"].Enabled = false;
                         outputChart.Titles[1].Text = "Ток АЦП, мА";
                         outputPendingBox.Clear();
                         break;
 
                     case "generatorPowerOutput":
+                        outputChart.Series["YOutboundCurrentActiveValues"].Enabled = false;
+                        outputChart.Series["YOutboundCurrentActiveValuesAnode"].Enabled = false;
+                        outputChart.Series["YOutboundCurrentActiveValuesPower"].Enabled = true;
                         outputChart.Titles[1].Text = "Мощность генератора, мВт";
                         outputPendingBox.Clear();
                         break;
 
                     case "generatorCurrentOutput":
+                        outputChart.Series["YOutboundCurrentActiveValues"].Enabled = false;
+                        outputChart.Series["YOutboundCurrentActiveValuesAnode"].Enabled = true;
+                        outputChart.Series["YOutboundCurrentActiveValuesPower"].Enabled = false;
                         outputChart.Titles[1].Text = "Ток генератора, А";
                         outputPendingBox.Clear();
                         break;
@@ -221,7 +230,7 @@ namespace ViewWindow
                 {
                     if (_viewModel.InternalOutputQueue.Queue != null)
                     {
-                        _pointRefreshLimitYAxis = _viewModel.InternalOutputAnodeQueue.Queue.Count();
+                        _pointRefreshLimitYAxis = _viewModel.InternalInputAnodeQueue.Queue.Count();
                     }
 
                     inputChart.Series["YAnodeCurrentValues"].Points.Clear();
@@ -229,7 +238,7 @@ namespace ViewWindow
                     for (int _localPointCounter = 0; _localPointCounter < _pointRefreshLimitYAxis - 1; ++_localPointCounter)
                     {
                         //chart1.Series["YValues"].Points.AddXY(_viewModel.XAxisTimerQueue.Queue.ElementAt(_localPointCounter), _viewModel.InternalQueue.Queue.ElementAt(_localPointCounter));
-                        inputChart.Series["YAnodeCurrentValues"].Points.AddY(_viewModel.InternalOutputAnodeQueue.Queue.ElementAt(_localPointCounter));
+                        inputChart.Series["YAnodeCurrentValues"].Points.AddY(_viewModel.InternalInputAnodeQueue.Queue.ElementAt(_localPointCounter));
                     }
 
                 }
@@ -238,7 +247,7 @@ namespace ViewWindow
                 {
                     if (_viewModel.InternalOutputQueue.Queue != null)
                     {
-                        _pointRefreshLimitYAxis = _viewModel.InternalOutputPowerQueue.Queue.Count();
+                        _pointRefreshLimitYAxis = _viewModel.InternalInputPowerQueue.Queue.Count();
                     }
 
                     inputChart.Series["YPowerValues"].Points.Clear();
@@ -246,7 +255,7 @@ namespace ViewWindow
                     for (int _localPointCounter = 0; _localPointCounter < _pointRefreshLimitYAxis - 1; ++_localPointCounter)
                     {
                         //chart1.Series["YValues"].Points.AddXY(_viewModel.XAxisTimerQueue.Queue.ElementAt(_localPointCounter), _viewModel.InternalQueue.Queue.ElementAt(_localPointCounter));
-                        inputChart.Series["YPowerValues"].Points.AddY(_viewModel.InternalOutputPowerQueue.Queue.ElementAt(_localPointCounter));
+                        inputChart.Series["YPowerValues"].Points.AddY(_viewModel.InternalInputPowerQueue.Queue.ElementAt(_localPointCounter));
                     }
 
                 }
@@ -280,6 +289,38 @@ namespace ViewWindow
                     {
                         //chart1.Series["YValues"].Points.AddXY(_viewModel.XAxisTimerQueue.Queue.ElementAt(_localPointCounter), _viewModel.InternalQueue.Queue.ElementAt(_localPointCounter));
                         outputChart.Series["YAngleValueKValues"].Points.AddY(_viewModel.AngleValueK.Queue.ElementAt(_localPointCounter));
+                    }
+                }
+
+                if (args.PropertyName == "OutboundCurrentActiveAnode")
+                {
+                    if (_viewModel.AngleValueK.Queue != null)
+                    {
+                        _pointRefreshLimitYAxis = _viewModel.InternalOutputAnodeQueue.Queue.Count();
+                    }
+
+                    outputChart.Series["YOutboundCurrentActiveValuesAnode"].Points.Clear();
+
+                    for (int _localPointCounter = 0; _localPointCounter < _pointRefreshLimitYAxis - 1; ++_localPointCounter)
+                    {
+                        //chart1.Series["YValues"].Points.AddXY(_viewModel.XAxisTimerQueue.Queue.ElementAt(_localPointCounter), _viewModel.InternalQueue.Queue.ElementAt(_localPointCounter));
+                        outputChart.Series["YOutboundCurrentActiveValuesAnode"].Points.AddY(_viewModel.InternalOutputAnodeQueue.Queue.ElementAt(_localPointCounter));
+                    }
+                }
+
+                if (args.PropertyName == "OutboundCurrentActivePower")
+                {
+                    if (_viewModel.AngleValueK.Queue != null)
+                    {
+                        _pointRefreshLimitYAxis = _viewModel.InternalOutputPowerQueue.Queue.Count();
+                    }
+
+                    outputChart.Series["YOutboundCurrentActiveValuesPower"].Points.Clear();
+
+                    for (int _localPointCounter = 0; _localPointCounter < _pointRefreshLimitYAxis - 1; ++_localPointCounter)
+                    {
+                        //chart1.Series["YValues"].Points.AddXY(_viewModel.XAxisTimerQueue.Queue.ElementAt(_localPointCounter), _viewModel.InternalQueue.Queue.ElementAt(_localPointCounter));
+                        outputChart.Series["YOutboundCurrentActiveValuesPower"].Points.AddY(_viewModel.InternalOutputPowerQueue.Queue.ElementAt(_localPointCounter));
                     }
                 }
             };
@@ -332,10 +373,18 @@ namespace ViewWindow
         {
             outputChart.Series.Add("YOutboundCurrentActiveValues");
             outputChart.Series.Add("YAngleValueKValues");
+            outputChart.Series.Add("YOutboundCurrentActiveValuesAnode");
+            outputChart.Series.Add("YOutboundCurrentActiveValuesPower");
 
-            outputChart.Series["YOutboundCurrentActiveValues"].ChartType = SeriesChartType.Spline;
-            outputChart.Series["YAngleValueKValues"].ChartType = SeriesChartType.Spline;
+            outputChart.Series["YOutboundCurrentActiveValues"].ChartType = SeriesChartType.Line;
+            outputChart.Series["YAngleValueKValues"].ChartType = SeriesChartType.Line;
+            outputChart.Series["YOutboundCurrentActiveValuesAnode"].ChartType = SeriesChartType.Line;
+            outputChart.Series["YOutboundCurrentActiveValuesPower"].ChartType = SeriesChartType.Line;
 
+
+            outputChart.Series["YOutboundCurrentActiveValues"].Enabled = true;
+            outputChart.Series["YOutboundCurrentActiveValuesAnode"].Enabled = false;
+            outputChart.Series["YOutboundCurrentActiveValuesPower"].Enabled = false;
             outputChart.Series["YAngleValueKValues"].Enabled = false;
             //chart1.ChartAreas[0].AxisX.LabelStyle.Format = "mm:ss";
 
@@ -357,9 +406,13 @@ namespace ViewWindow
             {
                 case (CheckState.Checked):
                     _viewModel._autoModeActive = true;
+                    outputPendingBox.Enabled = false;
                     break;
                 case (CheckState.Unchecked):
+                    _viewModel.OutputBoardPush(float.Parse(outputPendingBox.Text, System.Globalization.CultureInfo.InvariantCulture));
                     _viewModel._autoModeActive = false;
+                    outputPendingBox.Enabled = true;
+
                     break;
             }
         }

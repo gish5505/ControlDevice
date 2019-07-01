@@ -207,7 +207,6 @@ namespace ControlDevice.Calculations
 
         public void AutoMode(float autoModeTarget)
         {
-            autoModeTarget = 2.9f;
 
             float _currentChange;
             double _deltaI = -0.05 * (InboundVoltage - 2.9);

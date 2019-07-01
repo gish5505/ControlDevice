@@ -100,6 +100,8 @@ namespace ViewWindow
 
             if (_isStarted & isParsable & correctionCheckBox.Checked)
             {
+                pushValue = 2.9f; //must be edited
+
                 _viewModel.AutoMode(pushValue);
             }
         }

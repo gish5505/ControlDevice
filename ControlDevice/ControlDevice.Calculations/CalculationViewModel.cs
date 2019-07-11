@@ -1,4 +1,5 @@
 ﻿using ControlDevice.Models;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,6 +30,8 @@ namespace ControlDevice.Calculations
         public event PropertyChangedEventHandler PropertyChanged;
 
         private IEnumerable<Range> _ranges;
+
+        private readonly ILog _logger = LogManager.GetLogger("CVM");
 
         public CalculationViewModel()
         {           
@@ -66,10 +69,12 @@ namespace ControlDevice.Calculations
                     XAxisTimerQueue.Enqueue(DateTime.Now);
                     OnPropertyChanged("XAxisTimerQueue");
 
-                    InternalInputAnodeQueue.Enqueue((InboundVoltage * ValueFromRangeDAC((float)InboundVoltage) + ShiftAmountBDAC((float)InboundVoltage)) / 10);
+                    double _internalInputAnodeQueue = Math.Round((InboundVoltage * ValueFromRangeDAC((float)InboundVoltage) + ShiftAmountBDAC((float)InboundVoltage)) / 10, 4, MidpointRounding.ToEven);
+                    InternalInputAnodeQueue.Enqueue(_internalInputAnodeQueue);
                     OnPropertyChanged("OutboundAnodeCurrentActive");
 
-                    InternalInputPowerQueue.Enqueue(3 * InboundVoltage * ValueFromRangeDAC((float)InboundVoltage + ShiftAmountBDAC((float)InboundVoltage)) / 10);
+                    double _internalInputPowerQueue = Math.Round(3 * InboundVoltage * ValueFromRangeDAC((float)InboundVoltage + ShiftAmountBDAC((float)InboundVoltage)) / 10, 4, MidpointRounding.ToEven);
+                    InternalInputPowerQueue.Enqueue(_internalInputPowerQueue);
                     OnPropertyChanged("OutboundPowerActive");
 
                     AngleValueK.Enqueue(ValueFromRangeDAC((float)InboundVoltage));
@@ -78,16 +83,22 @@ namespace ControlDevice.Calculations
                     InternalOutputQueue.Enqueue(OutboundCurrentActive);
                     OnPropertyChanged("OutboundCurrentActive");
 
-                    InternalOutputAnodeQueue.Enqueue(10 * _outboundCurrentActive * ValueFromRange(10 * (float)_outboundCurrentActive) + ShiftAmountB(10 * (float)_outboundCurrentActive));
+                    double _internalOutputAnodeQueue = Math.Round(10 * _outboundCurrentActive * ValueFromRange(10 * (float)_outboundCurrentActive) + ShiftAmountB(10 * (float)_outboundCurrentActive), 4, MidpointRounding.ToEven);
+                    InternalOutputAnodeQueue.Enqueue(_internalOutputAnodeQueue);
                     OnPropertyChanged("OutboundCurrentActiveAnode");
 
-                    InternalOutputPowerQueue.Enqueue(10 * (_outboundCurrentActive / 3) * ValueFromRange(10 * ((float)_outboundCurrentActive / 3)) + ShiftAmountB(10 * ((float)_outboundCurrentActive / 3)));
+                    double _internalOutputPowerQueue = Math.Round(10 * (_outboundCurrentActive / 3) * ValueFromRange(10 * ((float)_outboundCurrentActive / 3)) + ShiftAmountB(10 * ((float)_outboundCurrentActive / 3)));
+                    InternalOutputPowerQueue.Enqueue(_internalOutputPowerQueue);
                     OnPropertyChanged("OutboundCurrentActivePower");
 
                     if (_autoModeActive)
                     {
                         AutoMode(2);
                     }
+
+                    //IQ = InternalQueue; OACA = OutboundAnodeCurrentActive; OPA = OutboundPowerActive; OCA = OutboundCurrentActive; OCAA = OutboundCurrentActiveAnode; OCAP = OutboundCurrentActivePower;
+
+                    _logger.Info($"IQ = {InboundVoltage}, OACA={_internalInputAnodeQueue}, OPA={_internalInputPowerQueue}, OCA={OutboundCurrentActive}, OCAA={_internalOutputAnodeQueue}, OCAP={_internalOutputPowerQueue}");
                 }
                 finally
                 {

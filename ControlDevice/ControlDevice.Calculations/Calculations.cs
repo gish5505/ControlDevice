@@ -14,8 +14,6 @@ namespace ControlDevice.Calculations
     {
         float CurrentValueCalculation();
 
-
-
     }
 
     public class Calculations : ICalculations
